@@ -8,7 +8,7 @@ function SignupPage(){
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
-    const [passowrd, setPassword] = useState("");
+    const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
 
@@ -16,12 +16,15 @@ function SignupPage(){
         e.preventDefault();
         if(!username.trim()){
             alert("Username cannot be empty.");
+            return;
         }
-        if(!email.test(emailRegex)){
+        if(email.trim() && !emailRegex.test(email)){
             alert("Please enter a valid email address.")
+            return;
         }
-        if(passowrd.trim() !== confirmPassword.trim()){
+        if(password.trim() !== confirmPassword.trim()){
             alert("Your passwords do not match.");
+            return;
         }
         
     }
@@ -35,7 +38,7 @@ function SignupPage(){
             <label htmlFor='email'>Email:</label>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <label htmlFor='password'>Password:</label>
-            <input type="password" value={passowrd} required onChange={(e) => setPassword(e.target.value)}/>
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}  required/>
             <label htmlFor='confirm-password'>Confirm Password:</label>
             <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
             <input type="submit" />
