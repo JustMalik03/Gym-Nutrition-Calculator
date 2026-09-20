@@ -1,16 +1,18 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { Route, Routes } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
+import Home from "./pages/Home";
 
-function App() {
-
-  return (
-    <>
-    <h1>Hello, World!</h1>
-    </>
-  )
+function App(){
+    return(
+        <main className="main-content">
+        <Routes>
+          <Route path="/" element={<LoginPage />}></Route> 
+          <Route path="/signup" element={<SignupPage />}></Route>
+          <Route path="/home" element={<Home />}></Route> 
+        </Routes>
+        </main>
+    );
 }
 
-export default App
+export default App;
