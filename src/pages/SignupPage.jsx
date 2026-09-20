@@ -10,10 +10,19 @@ function SignupPage(){
     const [email, setEmail] = useState("");
     const [passowrd, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
 
     function handleSubmit(e){
         e.preventDefault();
-        
+        if(!username.trim()){
+            alert("Username cannot be empty.");
+        }
+        if(!email.test(emailRegex)){
+            alert("Please enter a valid email address.")
+        }
+        if(passowrd.trim() !== confirmPassword.trim()){
+            alert("Your passwords do not match.");
+        }
         
     }
 
