@@ -36,6 +36,8 @@ A React and Express application for calculating gym and nutrition information. T
    (For exmaple 
       MONGODB_URI=mongodb+srv://ebenezeroajisafe_db_user:TestPassword@cluster0.acyegno.mongodb.net/gymNutrition?retryWrites=true&w=majority&appName=Cluster0)
 
+      Everyone DB password is Likeboss12. so replace the password section with that.
+
 4. In MongoDB Atlas, add your current IP address under **Network Access**. You also need access to the team's project and database user.
 
 ## Running locally
