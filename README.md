@@ -1,18 +1,102 @@
-# React + Vite
+# This ReadMe is 90% AI generated 
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+# Gym Nutrition Calculator
 
-Currently, two official plugins are available:
+A React and Express application for calculating gym and nutrition information. The Express API connects to our shared MongoDB Atlas database.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Requirements
 
-## React Compiler
+- Node.js 20 or newer
+- A MongoDB Atlas account with access to the team project
+- Git
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## First-time setup
 
-## Expanding the Oxlint configuration
+1. Clone the repository and open its folder:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+   ```powershell
+   git clone <repository-url>
+   cd Gym-Nutrition-Calculator
+   ```
 
-# Web-Group4-Project
+2. Install the dependencies:
+
+   ```powershell
+   npm install
+   ```
+
+3. Create a file named `.env` in the project root, next to `package.json`:
+
+   ```env
+   MONGODB_URI=mongodb+srv://DATABASE_USERNAME:DATABASE_PASSWORD@cluster0.acyegno.mongodb.net/gymNutrition?retryWrites=true&w=majority&appName=Cluster0
+   MONGODB_DB=gymNutrition
+   ```
+
+   Replace the username and password with the application database user's credentials. Do not include angle brackets.
+   (For exmaple 
+      MONGODB_URI=mongodb+srv://ebenezeroajisafe_db_user:TestPassword@cluster0.acyegno.mongodb.net/gymNutrition?retryWrites=true&w=majority&appName=Cluster0)
+
+4. In MongoDB Atlas, add your current IP address under **Network Access**. You also need access to the team's project and database user.
+
+## Running locally
+
+Start the Vite frontend and Express API together:
+
+```powershell
+npm run dev
+```
+
+The frontend runs at [http://localhost:5173](http://localhost:5173). The API runs at [http://localhost:3000](http://localhost:3000).
+
+To check the API and MongoDB connection, open [http://localhost:3000/api/health](http://localhost:3000/api/health). A successful response is:
+
+```json
+{"status":"ok"}
+```
+
+You can start only the API with:
+
+```powershell
+npm run server
+```
+
+## Available commands
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the frontend and API for development |
+| `npm run server` | Start only the Express API |
+| `npm run build` | Create a production frontend build |
+| `npm run preview` | Preview the production frontend build |
+| `npm run lint` | Check the code with Oxlint |
+
+## MongoDB and security
+
+- Use the same database name, `gymNutrition`, so everyone works with the same data.
+- Each teammate should create their own local `.env` file.
+- `.env` is ignored by Git and must never be committed.
+- Never put `MONGODB_URI` in React frontend code or in a variable beginning with `VITE_`.
+
+The application uses this flow:
+
+```text
+React frontend -> Express API -> MongoDB Atlas
+```
+
+## Troubleshooting
+
+### `ERR_CONNECTION_REFUSED` on port 3000
+
+The API is not running. Start it with `npm run server` and check the terminal for startup errors.
+
+### MongoDB connection or authentication errors
+
+Check that:
+
+- The `.env` file is in the project root.
+- The variable names are exactly `MONGODB_URI` and `MONGODB_DB`.
+- The database username and password are correct.
+- Your IP address is allowed in Atlas **Network Access**.
+- Special characters in the password are URL-encoded in the URI.
+
+Restart the API after changing `.env`.
