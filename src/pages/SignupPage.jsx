@@ -27,6 +27,9 @@ function SignupPage(){
                             minLength: {
                                 value: 4,
                                 message: 'Username must be at least 4 characters long'
+                            }, maxLength: {
+                                value: 26,
+                                message: "Username cannot exceed 26 characters"
                             }
                         })}
                     />
