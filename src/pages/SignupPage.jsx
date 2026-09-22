@@ -42,7 +42,7 @@ function SignupPage(){
             <label htmlFor='confirm-password'>Confirm Password:</label>
             <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
             <input type="submit" />
-            <Link to="/"><p>Already have an account? Login here!</p></Link>
+            <p>Already have an account? <Link to="/login">Login here!</Link></p>
         </form>
         </>
     )

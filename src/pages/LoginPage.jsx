@@ -5,7 +5,7 @@ import '../css/LoginPage.css'
 
 function LoginPage() {
 
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSubmit = (e) => {
@@ -19,12 +19,12 @@ function LoginPage() {
     <h1>Gym Nutrition Calculator</h1>
     <div className="form-container">
       <form onSubmit={handleSubmit}>
-        <label htmlFor='username'>Username:</label>
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required/>
+        <label htmlFor='email'>Email:</label>
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
         <label htmlFor='password'>Password:</label>
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         <input type="submit" id="login-btn" value="Submit"/>
-        <Link to="/signup"><p>Need to create an account? Sign up here!</p></Link>
+        <p>Need to create an account? <Link to="/signup">Sign up here!</Link></p>
       </form>
       </div>
     </>
