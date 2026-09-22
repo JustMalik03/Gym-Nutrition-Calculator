@@ -1,7 +1,8 @@
-:root {
-
-}
-
 body {
     background-color: aliceblue;
+}
+
+.error-message {
+    color: red;
+    text-align: left;
 }
