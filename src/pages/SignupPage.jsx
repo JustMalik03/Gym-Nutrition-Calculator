@@ -8,8 +8,26 @@ function SignupPage(){
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit = (data) => {
-        console.log('Form submitted successfully!', data);
+    const onSubmit = async (data) => {
+        try {
+            const res = await fetch("http://localhost:3000/api/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+
+            const result = await res.json();
+            if(res.ok){
+                console.log("Data successfully sent.");
+                
+            } else {
+                console.log("Something went wrong.")
+            }
+        } catch(error){
+            console.error("Failed to connect to server", error);
+        }
     };
 
     return(

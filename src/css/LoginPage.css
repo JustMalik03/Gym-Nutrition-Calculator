@@ -72,11 +72,12 @@ input[type="submit"] {
     border: none;
     border-radius: 5px;
     color: linen;
+    transition: 0.2s all;
 }
 
 input[type="submit"]:hover {
     cursor: pointer;
     background-color: oklch(from var(--malachite) calc(l * 0.8) c h);
-    transition: 0.3s all;
+    transition: 0.2s all;
     
 }
