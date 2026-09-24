@@ -16,7 +16,7 @@ function LoginPage() {
 
   return (
     <>
-    <h1>Gym Nutrition Calculator</h1>
+    <h1><a href="/" style={{ textDecoration: 'underline' }}>Login</a></h1>
     <div className="form-container">
       <form onSubmit={handleSubmit}>
         <label htmlFor='username'>Username:</label>

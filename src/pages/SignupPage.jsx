@@ -31,7 +31,7 @@ function SignupPage(){
 
     return(
         <>
-        <h1>Sign Up</h1>
+        <h1 style={{ textDecoration: 'underline' }}><a href="/">Sign Up</a></h1>
         <form onSubmit={handleSubmit}>
             <label htmlFor='username'>Username:</label>
             <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
@@ -42,7 +42,7 @@ function SignupPage(){
             <label htmlFor='confirm-password'>Confirm Password:</label>
             <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
             <input type="submit" />
-            <Link to="/"><p>Already have an account? Login here!</p></Link>
+            <Link to="/login"><p>Already have an account? Login here!</p></Link>
         </form>
         </>
     )
