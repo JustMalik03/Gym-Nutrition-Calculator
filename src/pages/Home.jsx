@@ -29,22 +29,22 @@ function Home() {
                     <PlanCard
                         title="Generate Gym Plan"
                         description="Create a personalized gym plan based on your goals and preferences."
-                        imageUrl="/public/images/gym.jpg"
+                        imageUrl="/images/gym.jpg"
                     />
                     <PlanCard
                         title="Generate Nutrition Plan"
                         description="Get a customized nutrition plan to complement your gym routine."
-                        imageUrl="/public/images/food.jpg"
+                        imageUrl="/images/food.jpg"
                     />
                     <PlanCard
                         title="Track Progress"
                         description="Monitor your fitness journey and track your progress over time."
-                        imageUrl="/public/images/progress.jpg"
+                        imageUrl="/images/progress.jpg"
                     />
                     <PlanCard
                         title="Community Blogs"
                         description="Read and share experiences with our fitness community through blogs."
-                        imageUrl="/public/images/blog.jpg"
+                        imageUrl="/images/blog.jpg"
                     />    
                 </section>
                 

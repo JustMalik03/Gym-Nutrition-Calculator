@@ -3,12 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 
 import "../css/LoginPage.css";
 
+
 function LoginPage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+    const naviagte = useNavigate();
 
   const onSubmit = async (data) => {
     try {
@@ -22,6 +25,7 @@ function LoginPage() {
       const result = await res.json();
       if (res.ok) {
         console.log("Login Successful!");
+        naviagte("/dashboard");
       } else {
         console.log("Invalid credentials");
       }
