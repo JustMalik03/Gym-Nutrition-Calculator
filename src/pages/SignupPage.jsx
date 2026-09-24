@@ -122,6 +122,7 @@ function SignupPage(){
 
                 <input type="submit" value="Sign Up"/>
             <p>Already have an account? <Link to="/login">Login here!</Link></p>
+            <p>Want to go home page? <Link to="/">Home</Link></p>
         </form>
         </>
     )

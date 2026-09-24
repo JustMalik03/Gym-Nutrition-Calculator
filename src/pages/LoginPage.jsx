@@ -70,6 +70,7 @@ function LoginPage() {
         <p>
           Need to create an account? <Link to="/signup">Sign up here!</Link>
         </p>
+        <p>Want to go home page? <Link to="/">Home</Link></p>
       </form>
     </>
   );
