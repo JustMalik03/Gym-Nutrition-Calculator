@@ -1,9 +1,10 @@
 :root {
     --dark-slate-grey: #214F4B;
     --emerald: #16C172;
-    --malachite: #09E85E;
+    --malachite: #07e15b;
     --spring-green: #2AFC98;
-    --electric-aqua: #2DE1FC; 
+    --electric-aqua: #2DE1FC;
+    --link-hover: rgb(66, 173, 254); 
 }
 
 body {
@@ -34,6 +35,7 @@ form {
     padding: 2em;
     background-color: white;
     border-radius: 3%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 label {
@@ -41,9 +43,9 @@ label {
     margin: 0.5rem 0;
 }
 
-a {
-    text-decoration: none;
-    color: var(--dark-slate-grey);
+a:hover {
+    color: var(--link-hover);
+    transition: 0.3s all;
 }
 
 input {
@@ -54,6 +56,11 @@ input {
     font-size: 1rem;
 }
 
+.error-message {
+    color: red;
+    text-align: left;
+}
+
 input[type="submit"] {
     display: block;
     width: 60%;
@@ -61,8 +68,16 @@ input[type="submit"] {
     height: 2em;
     min-width: 300px;
     font-size: 1.2rem;
+    background-color: var(--malachite);
+    border: none;
+    border-radius: 5px;
+    color: linen;
+    transition: 0.2s all;
 }
 
 input[type="submit"]:hover {
     cursor: pointer;
+    background-color: oklch(from var(--malachite) calc(l * 0.8) c h);
+    transition: 0.2s all;
+    
 }
