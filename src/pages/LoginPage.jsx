@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+import { useState } from "react";
 
 import "../css/LoginPage.css";
-
 
 function LoginPage() {
   const {
@@ -11,7 +13,15 @@ function LoginPage() {
     formState: { errors },
   } = useForm();
 
-    const naviagte = useNavigate();
+  const naviagte = useNavigate();
+  const [open, setOpen] = useState(false);
+
+  const handleClose = (e, reason) => {
+    if (reason === "clickaway"){ 
+      return
+    }
+    setOpen(false);
+  };
 
   const onSubmit = async (data) => {
     try {
@@ -22,9 +32,21 @@ function LoginPage() {
         },
         body: JSON.stringify(data),
       });
-      const result = await res.json();
+
+      setOpen(true);
+
       if (res.ok) {
         console.log("Login Successful!");
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            This is a success Alert inside a Snackbar!
+          </Alert>
+        </Snackbar>;
         naviagte("/dashboard");
       } else {
         console.log("Invalid credentials");
@@ -38,10 +60,10 @@ function LoginPage() {
     <>
       <h1>Login</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="email">Email:</label>
         <input
           type="email"
           name="email"
+          placeholder="Email"
           {...register("email", {
             required: "Email is required",
             pattern: {
@@ -53,29 +75,43 @@ function LoginPage() {
         {errors.email && (
           <span className="error-message">{errors.email.message}</span>
         )}
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            name="password"
-            {...register("password", {
-              required: "Password is required",
-              minLength: {
-                value: 8,
-                message: "Password must be at least 8 characters long",
-              },
-            })}
-          />
-          {errors.password && (
-            <span className="error-message">{errors.password.message}</span>
-          )}
-        </div>
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          {...register("password", {
+            required: "Password is required",
+            minLength: {
+              value: 8,
+              message: "Password must be at least 8 characters long",
+            },
+          })}
+        />
+        {errors.password && (
+          <span className="error-message">{errors.password.message}</span>
+        )}
+
         <input type="submit" id="login-btn" value="Submit" />
         <p>
           Need to create an account? <Link to="/signup">Sign up here!</Link>
         </p>
-        <p>Want to go home page? <Link to="/">Home</Link></p>
+        <p>
+          Want to go home page? <Link to="/">Home</Link>
+        </p>
       </form>
+      <div>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert
+            onClose={handleClose}
+            severity="error"
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            Invalid credentials
+          </Alert>
+        </Snackbar>;
+      </div>
     </>
   );
 }

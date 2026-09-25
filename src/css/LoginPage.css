@@ -1,83 +1,85 @@
 :root {
-    --dark-slate-grey: #214F4B;
-    --emerald: #16C172;
-    --malachite: #07e15b;
-    --spring-green: #2AFC98;
-    --electric-aqua: #2DE1FC;
-    --link-hover: rgb(66, 173, 254); 
+  --dark-slate-grey: #214f4b;
+  --emerald: #16c172;
+  --malachite: #07e15b;
+  --spring-green: #2afc98;
+  --electric-aqua: #2de1fc;
+  --link-hover: rgb(66, 173, 254);
+  --input-bg: rgb(238, 238, 238);
 }
 
 body {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    width: 100%;
-    height: 100vh;
-    font-size: 16px;
-    background-color: aliceblue;
-    
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  width: 100%;
+  height: 100vh;
+  font-size: 16px;
+  background-color: aliceblue;
 }
 
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
-h1, p {
-    text-align: center;
-    color: var(--dark-slate-grey);
-    margin: 1em auto;
+h1,
+p {
+  text-align: center;
+  color: var(--dark-slate-grey);
+  margin: 1em auto;
 }
 
 form {
-    width: 60vw;
-    max-width: 500px;
-    min-height: 300px;
-    margin: 0 auto;
-    padding: 2em;
-    background-color: white;
-    border-radius: 3%;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-
-label {
-    display: block;
-    margin: 0.5rem 0;
+  width: 60vw;
+  max-width: 500px;
+  min-height: 300px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: white;
+  border-radius: 3%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 a:hover {
-    color: var(--link-hover);
-    transition: 0.3s all;
+  color: var(--link-hover);
+  transition: 0.3s all;
 }
 
-input {
-    margin: 10px 0 0 0;
-    width: 100%;
-    min-height: 2em;
-    padding: 0.2em;
-    font-size: 1rem;
+input:not([type="submit"]) {
+  margin: 10px 0 0 0;
+  width: 100%;
+  min-height: 2em;
+  padding: 0.8em;
+  font-size: 1rem;
+  background-color: var(--input-bg);
+  transition: 0.3s all;
+}
+
+input:not([type="submit"]):focus {
+  background-color: white;
+  transition: 0.3s all;
 }
 
 .error-message {
-    color: red;
-    text-align: left;
+  color: red;
+  text-align: left;
 }
 
 input[type="submit"] {
-    display: block;
-    width: 60%;
-    margin: 1em auto;
-    height: 2em;
-    min-width: 300px;
-    font-size: 1.2rem;
-    background-color: var(--malachite);
-    border: none;
-    border-radius: 5px;
-    color: linen;
-    transition: 0.2s all;
+  display: block;
+  width: 60%;
+  margin: 1em auto;
+  height: 2em;
+  min-width: 300px;
+  font-size: 1.2rem;
+  background-color: var(--malachite);
+  border: none;
+  border-radius: 5px;
+  color: linen;
+  transition: 0.2s all;
 }
 
 input[type="submit"]:hover {
-    cursor: pointer;
-    background-color: oklch(from var(--malachite) calc(l * 0.8) c h);
-    transition: 0.2s all;
-    
+  cursor: pointer;
+  background-color: oklch(from var(--malachite) calc(l * 0.8) c h);
+  transition: 0.2s all;
 }
