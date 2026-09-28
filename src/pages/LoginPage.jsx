@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 import "../css/LoginPage.css";
 
@@ -9,10 +10,12 @@ function LoginPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
-      const res = await fetch("http://localhost:3000/api/login", {
+      const res = await fetch("/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -21,7 +24,8 @@ function LoginPage() {
       });
       const result = await res.json();
       if (res.ok) {
-        console.log("Login Successful!");
+        login(result.token, result.username);
+        navigate("/dashboard");
       } else {
         console.log("Invalid credentials");
       }

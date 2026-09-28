@@ -1,6 +1,7 @@
 
 import { Link } from "react-router-dom";
 import "../css/Home.css";
+import Header from "../components/components.jsx";
 
 /* Title cards for the options*/
 
@@ -16,14 +17,8 @@ function PlanCard({ title, description, imageUrl }) {
 function Home() {
     return (
         <>
-            <header className="home-header">
-                <h1>Gym Nutrition Calculator</h1>
-                <nav className="home-nav">
-                    <Link to="/login">Login</Link>
-                    <Link to="/signup">Sign Up</Link>
-                </nav>
-            </header>
-            <main className="home-content">
+        <Header />
+        <main className="home-content">
                 <h1 id="welcome">Welcome to the Gym Nutrition Calculator!</h1>
                 <section className="plan-grid">
                     <PlanCard
@@ -49,7 +44,7 @@ function Home() {
                 </section>
                 
             </main>
-        </>
+            </>
     );
 }
 

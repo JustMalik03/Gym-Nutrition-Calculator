@@ -10,13 +10,6 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Applying Middleware to allow frontend to communicate with server for local testing
-app.use((request, response, next) => {
-  response.header("Access-Control-Allow-Origin", "http://localhost:5173");
-  response.header("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
-
 // Uses router to call api requests
 app.use("/api", router);
 

@@ -1,16 +1,19 @@
 import '../css/SignupPage.css'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
+import { useAuth } from "../context/AuthContext";
 
 
 
 function SignupPage(){
 
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const { login } = useAuth();
+    const navigate = useNavigate();
 
     const onSubmit = async (data) => {
         try {
-            const res = await fetch("http://localhost:3000/api/users", {
+            const res = await fetch("/api/users", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -20,8 +23,8 @@ function SignupPage(){
 
             const result = await res.json();
             if(res.ok){
-                console.log("Data successfully sent.");
-                
+                login(result.token, result.username);
+                navigate("/dashboard");
             } else {
                 console.log("Something went wrong.")
             }
