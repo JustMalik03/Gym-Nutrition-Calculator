@@ -4,6 +4,7 @@ import SignupPage from "./pages/SignupPage";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import GuestRoute from "./components/GuestRoute";
+import ProtectedRoute from "./components/ProtectRoute";
 
 //This file is for placing links to pages
 
@@ -14,7 +15,7 @@ function App(){
           <Route path="/" element={<Home />}></Route> 
           <Route path="/signup" element={<GuestRoute><SignupPage /></GuestRoute>}></Route>
           <Route path="/login" element={<GuestRoute><LoginPage /></GuestRoute>}></Route>
-          <Route path="/dashboard" element={<Dashboard />}></Route>
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}></Route>
         </Routes>
         </main>
     );
