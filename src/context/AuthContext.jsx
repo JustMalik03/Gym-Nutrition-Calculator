@@ -40,7 +40,7 @@ export function AuthProvider({ children }) {
         setUser(null);
     }, []);
 
-    // It sends the token, and logs the user out if the server rejects it. Also start of AI
+    // It sends the token, and logs the user out if the server rejects it. Also start of AI code
     const authFetch = useCallback(async (url, options = {}) => {
         const res = await fetch(url, {
             ...options,

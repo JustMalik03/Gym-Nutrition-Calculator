@@ -1,7 +1,7 @@
 import jsonwebtoken from "jsonwebtoken";
 import "dotenv/config.js";
 
-// Put this before any route that needs a logged-in user.
+// require this before any route that needs a logged-in user.
 // It checks the token and sets req.userId to the logged-in user's id.
 function requireAuth(req, res, next) {
     const token = req.headers.authorization?.split(" ")[1];
