@@ -40,7 +40,13 @@ router.post("/users", async (req, res) => {
     
     await registerUser.save();
     const token = jsonwebtoken.sign({ id: registerUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.status(201).json({token, username:registerUser.username, message: "User has successfully registered"});
+    // Send the user's info as one object so the frontend can save it all at once.
+    // To give the frontend another field later, add it here (and in /login).
+    res.status(201).json({
+      token,
+      user: { username: registerUser.username, email: registerUser.email },
+      message: "User has successfully registered"
+    });
 
   } catch (err) {
      res.status(500).json({error: err.message})
@@ -62,7 +68,12 @@ router.post("/login", async (req, res) => {
     // Generate Verification JWT Token
     const token = jsonwebtoken.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    res.status(200).json({ token, username:user.username, message: "Login successful!" });
+    // Same user object shape as signup, so the frontend handles both the same way
+    res.status(200).json({
+      token,
+      user: { username: user.username, email: user.email },
+      message: "Login successful!"
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

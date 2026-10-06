@@ -39,7 +39,8 @@ function SignupPage() {
       const result = await res.json();
 
       if (res.ok) {
-        login(result.token, result.username);
+        // result.user is { username, email } from the server
+        login(result.token, result.user);
         navigate("/dashboard");
       } else {
         showError(result.message || "There was an error with creating your account");

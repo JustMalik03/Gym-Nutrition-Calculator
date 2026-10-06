@@ -5,10 +5,11 @@ import Header from "../components/components.jsx";
 
 /* Title cards for the options*/
 
-function PlanCard({ title, description, imageUrl }) {
+function PlanCard({ title, description, imageUrl, link }) {
     return (
         <article className="plan-card">
-            <img className="card-image" src={imageUrl} alt={description} />
+            <a href={link}>
+            <img className="card-image" src={imageUrl} alt={description} /> </a>
             <h2>{title}</h2>
         </article>
     );
@@ -25,6 +26,7 @@ function Home() {
                         title="Generate Gym Plan"
                         description="Create a personalized gym plan based on your goals and preferences."
                         imageUrl="/images/gym.jpg"
+                        link="/gymplan"
                     />
                     <PlanCard
                         title="Generate Nutrition Plan"

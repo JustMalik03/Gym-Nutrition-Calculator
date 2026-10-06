@@ -26,11 +26,14 @@ export function AuthProvider({ children }) {
     });
     const [token, setToken] = useState(() => localStorage.getItem("token"));
 
-    const login = (token, username) => {
+    // Saves the logged-in user. userInfo is the user object the server sends back,
+    // e.g. { username, email } - whatever fields it has get saved, so adding a new
+    // field only needs a change on the server.
+    const login = (token, userInfo) => {
         localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify({ username }));
+        localStorage.setItem("user", JSON.stringify(userInfo));
         setToken(token);
-        setUser({ username });
+        setUser(userInfo);
     };
 
     const logout = useCallback(() => {
@@ -58,10 +61,22 @@ export function AuthProvider({ children }) {
         return () => clearTimeout(timer);
     }, [token, logout]);
 
-    // On page load, ask the server if the saved token is still valid
+    // On page load, ask the server if the saved token is still valid.
+    // If it is, /api/me also sends the user's latest info from the database, so we
+    // refresh the saved copy. This updates users who logged in before a field (like
+    // email) was added, without making them log out and back in.
     useEffect(() => {
         if (localStorage.getItem("token")) {
-            authFetch("/api/me").catch(() => {}); // server down: stay logged in for now
+            authFetch("/api/me")
+                .then((res) => (res.ok ? res.json() : null)) // 401 is handled by authFetch (logs out)
+                .then((freshUser) => {
+                    if (freshUser) {
+                        const userInfo = { username: freshUser.username, email: freshUser.email };
+                        localStorage.setItem("user", JSON.stringify(userInfo));
+                        setUser(userInfo);
+                    }
+                })
+                .catch(() => {}); // server down: keep the saved user for now
         }
     }, [authFetch]);
 

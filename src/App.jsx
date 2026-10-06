@@ -3,6 +3,7 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
+import GymPlan from "./pages/Gengymplan";
 import GuestRoute from "./components/GuestRoute";
 import ProtectedRoute from "./components/ProtectRoute";
 
@@ -16,6 +17,8 @@ function App(){
           <Route path="/signup" element={<GuestRoute><SignupPage /></GuestRoute>}></Route>
           <Route path="/login" element={<GuestRoute><LoginPage /></GuestRoute>}></Route>
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}></Route>
+          <Route path="/gymplan" element={<ProtectedRoute><GymPlan /></ProtectedRoute>}></Route>
+
         </Routes>
         </main>
     );

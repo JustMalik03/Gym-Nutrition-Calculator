@@ -27,7 +27,8 @@ function LoginPage() {
       });
       const result = await res.json();
       if (res.ok) {
-        login(result.token, result.username);
+        // result.user is { username, email } from the server
+        login(result.token, result.user);
         navigate("/dashboard");
       } else {
         console.log("Invalid credentials");
