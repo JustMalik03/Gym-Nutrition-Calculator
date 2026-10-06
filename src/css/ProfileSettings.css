@@ -1,0 +1,30 @@
+.btn-update {
+  display: block;
+  width: 60%;
+  margin: 1em auto;
+  height: 2em;
+  min-width: 150px;
+  font-size: 1.2rem;
+  background-color: var(--electric-aqua);
+  border: none;
+  border-radius: 5px;
+  color: linen;
+  transition: 0.2s all;
+}
+
+.btn-update:hover {
+  cursor: pointer;
+  background-color: oklch(from var(--electric-aqua) calc(l * 0.8) c h);
+  transition: 0.2s all;
+}
+
+#settings-container {
+  width: 60vw;
+  max-width: 500px;
+  min-height: 300px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: white;
+  border-radius: 3%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}

@@ -3,7 +3,7 @@
   --emerald: #16c172;
   --malachite: #07e15b;
   --spring-green: #2afc98;
-  --electric-aqua: #2de1fc;
+  --electric-aqua: #27c1d9;
   --link-hover: rgb(66, 173, 254);
   --input-bg: rgb(238, 238, 238);
 }
@@ -44,11 +44,16 @@ a:hover {
   transition: 0.3s all;
 }
 
+label {
+  display: block;
+  margin: 5px 0;
+}
+
 input:not([type="submit"]) {
-  margin: 10px 0 0 0;
+  margin: 15px 0 15px 0;
   width: 100%;
   min-height: 2em;
-  padding: 0.8em;
+  padding: 0.6em;
   font-size: 1rem;
   background-color: var(--input-bg);
   transition: 0.3s all;

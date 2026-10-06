@@ -21,6 +21,7 @@ router.get("/health", async (req, res) => {
   }
 })
 
+//Attempst to register a new user
 router.post("/users", async (req, res) => {
   try {
     const {username, email, password} = req.body;
@@ -47,6 +48,25 @@ router.post("/users", async (req, res) => {
   }
 })
 
+//Attempst to update username
+router.put("/update-username", async (req, res) => {
+  const {username, email} = req.body;
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      {email: email},
+      {$set: {username: username}},
+      {returnDocument: "after"}
+    );
+    if(!updatedUser){
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    res.status(200).json({ success: true, data: updatedUser });
+  } catch (err){
+    res.status(500).json({success: false, message: err.message});
+  }
+})
+
+//Attempst to login the user
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -71,7 +91,7 @@ router.post("/login", async (req, res) => {
 // Returns the logged-in user's info (used by the frontend to check the token is still valid)
 router.get("/me", requireAuth, async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select("username email");
+    const user = await User.findById(req.userId).select("-hashedPassword");
     if (!user) return res.status(401).json({ message: "User no longer exists." });
 
     res.status(200).json(user);
