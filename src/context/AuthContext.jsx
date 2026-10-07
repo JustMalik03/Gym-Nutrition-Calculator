@@ -53,6 +53,12 @@ export function AuthProvider({ children }) {
         return res;
     }, [logout]);
 
+
+    const updateUser = useCallback((res) => {
+        localStorage.setItem("user", JSON.stringify(userInfo));
+        setUser(res);
+    }, [])
+
     // Log out automatically when the token expires (right away if it already has)
     useEffect(() => {
         if (!token) return;
@@ -81,7 +87,7 @@ export function AuthProvider({ children }) {
     }, [authFetch]);
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, authFetch }}>
+        <AuthContext.Provider value={{ user, login, logout, authFetch, updateUser }}>
             {children}
         </AuthContext.Provider>
     );

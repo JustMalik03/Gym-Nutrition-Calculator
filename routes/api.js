@@ -1,94 +1,55 @@
 import express from "express";
-import {MongoClient} from 'mongodb';
-import bcrypt from 'bcrypt';
+import { MongoClient } from "mongodb";
 import User from "../models/user.js";
-import jsonwebtoken from "jsonwebtoken";
 import "dotenv/config.js";
 import requireAuth from "../middleware/requireAuth.js";
+import {
+  registerUser,
+  loginUser,
+  updateUsername,
+  updatePassword,
+  verifyEmail,
+  findUser,
+} from "../middleware/userController.js";
 
 const router = express.Router();
 
 //Test for server status at this url
 //The initial await client..... to the response status is AI generated code
 router.get("/health", async (req, res) => {
-    const client = new MongoClient(process.env.MONGODB_URI)
-    try {
-    await client.db(process.env.MONGODB_DB).command({ ping: 1 })
-    res.status(200).json({ status: 'ok' })
-  } catch (error) {
-    console.error('Error occurred while checking server status:', error)
-    res.status(500).json({ status: 'error' })
-  }
-})
-
-router.post("/users", async (req, res) => {
+  const client = new MongoClient(process.env.MONGODB_URI);
   try {
-    const {username, email, password} = req.body;
-    const userExists = await User.findOne({ email });
-
-    if(userExists){
-      return res.status(400).json({message: "User already exists"});
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const registerUser = new User({
-      username,
-      email,
-      hashedPassword
-    }) 
-    
-    await registerUser.save();
-    const token = jsonwebtoken.sign({ id: registerUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    // Send the user's info as one object so the frontend can save it all at once.
-    // To give the frontend another field later, add it here (and in /login).
-    res.status(201).json({
-      token,
-      user: { username: registerUser.username, email: registerUser.email },
-      message: "User has successfully registered"
-    });
-
-  } catch (err) {
-     res.status(500).json({error: err.message})
-  }
-})
-
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    // Verify user existence
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "User does not exist." });
-
-    // Verify password matching
-    const isMatch = await bcrypt.compare(password, user.hashedPassword);
-    if (!isMatch) return res.status(400).json({ message: "Invalid credentials." });
-
-    // Generate Verification JWT Token
-    const token = jsonwebtoken.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-    // Same user object shape as signup, so the frontend handles both the same way
-    res.status(200).json({
-      token,
-      user: { username: user.username, email: user.email },
-      message: "Login successful!"
-    });
+    await client.db(process.env.MONGODB_DB).command({ ping: 1 });
+    res.status(200).json({ status: "ok" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Error occurred while checking server status:", error);
+    res.status(500).json({ status: "error" });
   }
-})
+});
 
 // Returns the logged-in user's info (used by the frontend to check the token is still valid)
 router.get("/me", requireAuth, async (req, res) => {
   try {
     const user = await User.findById(req.userId).select("username email");
-    if (!user) return res.status(401).json({ message: "User no longer exists." });
+    if (!user)
+      return res.status(401).json({ message: "User no longer exists." });
 
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-})
+});
+
+router.get("/find/:userId", findUser);
+
+router.post("/register", registerUser);
+
+router.post("/login", loginUser);
+
+router.post("/verify-email", verifyEmail);
+
+router.put("/update-username", updateUsername);
+
+router.put("/update-password", updatePassword);
 
 export default router;

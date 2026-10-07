@@ -1,5 +1,5 @@
 import "../css/SignupPage.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Snackbar from "@mui/material/Snackbar";
@@ -13,7 +13,6 @@ function SignupPage() {
     formState: { errors },
   } = useForm();
   const { login } = useAuth();
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -29,7 +28,7 @@ function SignupPage() {
 
   const onSubmit = async (data) => {
     try {
-      const res = await fetch("/api/users", {
+      const res = await fetch("/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +40,6 @@ function SignupPage() {
       if (res.ok) {
         // result.user is { username, email } from the server
         login(result.token, result.user);
-        navigate("/dashboard");
       } else {
         showError(result.message || "There was an error with creating your account");
       }
