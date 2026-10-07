@@ -1,4 +1,5 @@
 import Header from "../components/components.jsx";
+import { useForm } from "react-hook-form";
 import "../css/GymPlan.css";
 
 
@@ -47,6 +48,11 @@ function GymPlan(){
         <Header />
         <main className="home-content gymplan-page">
         <h1> GYM PLAN</h1>
+        <label htmlFor="currentWeight">Set your current weight:</label>
+        <input id="currentWeight" type="number" {...register("currentWeight", 
+            { required: "Current weight is required", valueAsNumber: true, min: { value: 50, message: "Weight must be a realistic number" },
+            max: { value: 1000, message: "Weight must be a realistic number" } })} />
+            {errors.currentWeight && <span className="error-message">{errors.currentWeight.message}</span>}
 
         </main>
 

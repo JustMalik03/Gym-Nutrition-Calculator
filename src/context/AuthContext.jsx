@@ -21,14 +21,19 @@ function getTokenExpiry(token) {
 export function AuthProvider({ children }) {
     // Start with whatever was saved, so a page refresh keeps you logged in
     const [user, setUser] = useState(() => {
-        const saved = localStorage.getItem("user");
-        return saved ? JSON.parse(saved) : null;
+        // try/catch: if something bad was saved (like the text "undefined"),
+        // JSON.parse throws - treat it as logged out instead of crashing the app
+        try {
+            const saved = localStorage.getItem("user");
+            return saved ? JSON.parse(saved) : null;
+        } catch {
+            return null;
+        }
     });
+
     const [token, setToken] = useState(() => localStorage.getItem("token"));
 
-    // Saves the logged-in user. userInfo is the user object the server sends back,
-    // e.g. { username, email } - whatever fields it has get saved, so adding a new
-    // field only needs a change on the server.
+    // Saves the logged-in user. userInfo is the user object the server sends back
     const login = (token, userInfo) => {
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(userInfo));
@@ -53,11 +58,11 @@ export function AuthProvider({ children }) {
         return res;
     }, [logout]);
 
-
-    const updateUser = useCallback((res) => {
+    // Replaces the saved user info (e.g. after changing username) without touching the token
+    const updateUser = useCallback((userInfo) => {
         localStorage.setItem("user", JSON.stringify(userInfo));
-        setUser(res);
-    }, [])
+        setUser(userInfo);
+    }, []);
 
     // Log out automatically when the token expires (right away if it already has)
     useEffect(() => {
@@ -69,15 +74,18 @@ export function AuthProvider({ children }) {
 
     // On page load, ask the server if the saved token is still valid.
     // If it is, /api/me also sends the user's latest info from the database, so we
-    // refresh the saved copy. This updates users who logged in before a field (like
-    // email) was added, without making them log out and back in.
+    // refresh the saved copy.
     useEffect(() => {
         if (localStorage.getItem("token")) {
             authFetch("/api/me")
                 .then((res) => (res.ok ? res.json() : null)) // 401 is handled by authFetch (logs out)
                 .then((freshUser) => {
                     if (freshUser) {
-                        const userInfo = { username: freshUser.username, email: freshUser.email };
+                        const userInfo = {
+                            username: freshUser.username,
+                            email: freshUser.email,
+                            isVerified: freshUser.isVerified,
+                        };
                         localStorage.setItem("user", JSON.stringify(userInfo));
                         setUser(userInfo);
                     }

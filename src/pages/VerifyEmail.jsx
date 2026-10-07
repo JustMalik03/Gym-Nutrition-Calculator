@@ -5,7 +5,7 @@ import { postRequest } from "../../utils/service";
 import { Alert, CircularProgress } from "@mui/material";
 
 const VerifyEmail = () => {
-  const { user, updateUser } = useAuth();
+  const { user, login } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -16,32 +16,32 @@ const VerifyEmail = () => {
   console.log("email token", emailToken)
 
   useEffect(() => {
-    async () => {
-      console.log("Looking at token...")
+    console.log("Checking email verification status...");
+    const verify = async () => {
       if (user?.isVerified) {
-        setTimeout(() => {
-          return navigate("/");
-        }, 3000);
-      } else {
-        if (emailToken) {
-          setIsLoading(true);
-          const res = await postRequest(
-            "/api/verify-email",
-            JSON.stringify(emailToken),
-          );
-
-          setIsLoading(false);
-          console.log("response:", res);
-
-          if (res.error) {
-            return setError(res);
-          }
-
-          updateUser(res);
-        }
+        // Already verified: go home after 3 seconds
+        setTimeout(() => navigate("/"), 3000);
+        return;
       }
+
+      if (!emailToken) return;
+
+      setIsLoading(true);
+
+      const res = await postRequest("/api/verify-email", JSON.stringify({ emailToken }));
+      setIsLoading(false);
+
+      if (res.error) {
+        return setError(res);
+      }
+
+      // Server sends { token, user }, log them in with their verified info
+      login(res.token, res.user);
     };
+
+    verify();
   }, [emailToken, user]);
+
 
   return (
     <div>

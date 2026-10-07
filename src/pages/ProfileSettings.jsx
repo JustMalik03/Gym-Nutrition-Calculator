@@ -7,7 +7,7 @@ function ProfileSettings() {
   const [newEmail, setNewEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const email = user.email;
 
   const handleUpdateUsername = async () => {
@@ -20,7 +20,10 @@ function ProfileSettings() {
         body: JSON.stringify({ newUsername, email }),
       });
       if (res.ok) {
-        console.log("Username updated successfully.")
+        // Update the saved user so the header shows the new name right away
+        updateUser({ ...user, username: newUsername });
+        console.log("Username updated successfully.");
+
       } else {
         console.log("Failed to update username.");
       }

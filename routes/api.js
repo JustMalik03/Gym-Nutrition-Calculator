@@ -30,7 +30,7 @@ router.get("/health", async (req, res) => {
 // Returns the logged-in user's info (used by the frontend to check the token is still valid)
 router.get("/me", requireAuth, async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select("username email");
+    const user = await User.findById(req.userId).select("username email isVerified");
     if (!user)
       return res.status(401).json({ message: "User no longer exists." });
 
