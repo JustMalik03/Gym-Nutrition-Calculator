@@ -7,3 +7,49 @@
 .gymplan-page h1 {
     color: white;
 }
+
+.gymplan-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    color: #214f4b;
+}
+
+.gymplan-form label,
+.gymplan-form p {
+    font-weight: 600;
+    text-align: left;
+    margin: 0.8rem 0 0;
+}
+
+.gymplan-form label:has(input[type="checkbox"]) {
+    font-weight: normal;
+    margin: 0;
+}
+
+.gymplan-form input[type="checkbox"] {
+    width: auto;
+    min-height: 0;
+    margin: 0 0.5em 0 0;
+    padding: 0;
+}
+
+.gymplan-form button {
+    margin-top: 1.0rem;
+    padding: 0.5em;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #07e15b;
+    color: white;
+    cursor: pointer;
+}
+
+.gymplan-form button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+#go-home{
+    color: white;
+}

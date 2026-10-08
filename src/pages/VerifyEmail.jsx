@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
 import { postRequest } from "../../utils/service";
 import { Alert, CircularProgress } from "@mui/material";
+import Header from "../components/components.jsx";
 
 const VerifyEmail = () => {
   const { user, login } = useAuth();
@@ -45,6 +46,7 @@ const VerifyEmail = () => {
 
   return (
     <div>
+      <Header />
       {isLoading ? (
         <div>
           <CircularProgress />
@@ -62,6 +64,8 @@ const VerifyEmail = () => {
               {error.error ? <Alert severity="error">{error.message}</Alert> : null}
             </div>
           )}
+
+
         </div>
       )}
     </div>
