@@ -2,6 +2,7 @@ import User from "../models/user.js";
 import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
 import crypto from "crypto";
+import sendVerificationEmail from "../utils/sendVerificationEmail.js";
 
 const createToken = (id) => {
   const jwtSecret = process.env.JWT_SECRET;
@@ -36,6 +37,8 @@ const registerUser = async (req, res) => {
   
 
     await registerUser.save();
+
+    sendVerificationEmail(registerUser);
 
     const token = createToken(registerUser.id);
 
@@ -105,6 +108,7 @@ const verifyEmail = async (req, res) => {
       user.emailToken = null;
       user.isVerified = true;
       await user.save();
+
       const token = createToken(user.id);
       // Same { token, user } shape as login, so the page can just call login() with it
       res.status(200).json({
