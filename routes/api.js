@@ -11,6 +11,7 @@ import {
   verifyEmail,
   findUser,
 } from "../middleware/userController.js";
+import { createGymPlan, getGymPlan } from "../middleware/gymPlanController.js";
 
 const router = express.Router();
 
@@ -51,5 +52,11 @@ router.post("/verify-email", verifyEmail);
 router.put("/update-username", updateUsername);
 
 router.put("/update-password", updatePassword);
+
+//STRICT ONLY REQUIRE AUTHENTICATED USERS BELOW THIS LINE
+
+router.post("/gym-plan", requireAuth, createGymPlan);
+
+router.get("/gym-plan/:id", requireAuth, getGymPlan);
 
 export default router;

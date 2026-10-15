@@ -1,7 +1,10 @@
 import Header from "../components/components.jsx";
 import { useForm } from "react-hook-form";
 import "../css/GymPlan.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+
 
 function GymPlan(){
     const {
@@ -15,9 +18,31 @@ function GymPlan(){
 
 });
 
-const onSubmit = (data) => {
-    console.log("Form submitted with data:", data);
-//See data being sent
+const { authFetch } = useAuth();
+const navigate = useNavigate();
+const [serverError, setServerError] = useState("");
+
+
+const onSubmit = async (data) => { 
+    setServerError(null); // Reset server error before submission
+    try{
+        const res = await authFetch("/api/gym-plan", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        const result = await res.json();
+
+        if (res.ok) {
+            navigate(`/aiplan/${result.id}`);
+        } else {
+            setServerError(result.message || "An error occurred while creating the gym plan.");
+        }
+    } catch (error) {
+        setServerError("An error occurred while creating the gym plan.");
+    }
 };
 
 
@@ -112,8 +137,10 @@ const onSubmit = (data) => {
         <label><input type="checkbox" value="full_body" {...register("focusAreas")} /> Full body</label>
         {errors.focusAreas && <span className="error-message">{errors.focusAreas.message}</span>}
 
-
-        <button type="submit" disabled={isSubmitting}>Submit</button>
+        {serverError && <span className="error-message">{serverError}</span>}
+        <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Generating your plan... (this can take up to a minute)" : "Submit"}
+        </button>
         </form>
         <p id="go-home">Want to go home page? <Link to="/">Home</Link></p>
         </main>
