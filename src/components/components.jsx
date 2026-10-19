@@ -3,6 +3,7 @@ import "../css/header.css";
 import { useAuth } from "../context/AuthContext";
 
 
+
 function Header() {
     const { user, logout } = useAuth();
     return (
@@ -24,5 +25,7 @@ function Header() {
         </header>
     );
 }
+
+
 
 export default Header;

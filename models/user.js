@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema(
     hashedPassword: { type: String, required: true },
     emailToken: {type: String},
     isVerified: { type: Boolean, default: false },
+    avatarURL: {type: String, default: "/uploads/default-avatar-icon-of-social-media-user-vector.jpg"}
   },
   {
     timestamps: true

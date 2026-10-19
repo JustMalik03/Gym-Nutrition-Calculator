@@ -52,6 +52,7 @@ input:not([type="submit"]) {
   font-size: 1rem;
   background-color: var(--input-bg);
   transition: 0.3s all;
+  border-radius: 8px;
 }
 
 input:not([type="submit"]):focus {
@@ -83,3 +84,5 @@ input[type="submit"]:hover {
   background-color: oklch(from var(--malachite) calc(l * 0.8) c h);
   transition: 0.2s all;
 }
+
+

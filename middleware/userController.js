@@ -76,7 +76,7 @@ const loginUser = async (req, res) => {
     // Same user object shape as signup, so the frontend handles both the same way
     res.status(200).json({
       token,
-      user: { username: user.username, email: user.email, isVerified: user.isVerified },
+      user: { username: user.username, email: user.email, isVerified: user.isVerified, avatarURL: user.avatarURL, createdAt: user.createdAt, userId: user.id },
       message: "Login successful!",
     });
   } catch (error) {
@@ -113,7 +113,7 @@ const verifyEmail = async (req, res) => {
       // Same { token, user } shape as login, so the page can just call login() with it
       res.status(200).json({
         token,
-        user: { username: user.username, email: user.email, isVerified: user.isVerified },
+        user: { username: user.username, email: user.email, isVerified: user.isVerified, avatarURL: user.avatarURL},
       });
 
     } else {
@@ -169,6 +169,30 @@ const updatePassword = async (req, res) => {
   }
 };
 
+const updateProfileImage = async (req, res) => {
+  try {
+    if(!req.file){
+      return res.status(400).json({message: "No file found"})
+    }
+
+    const imagePath = `/uploads/${req.file.filename}`;
+
+    const updatedUser = await User.findOneAndUpdate(
+      {_id: req.params.userId},
+      {avatarURL: imagePath},
+      {returnDocument: "after"}
+    );
+
+    res.status(200).json({
+      message: "Profile successfully updated",
+      user: updatedUser,
+      filePath: imagePath
+    })
+  } catch (err) {
+    res.status(500).json({message: "Server error", error: err.message});
+  }
+}
+
 export {
   verifyEmail,
   registerUser,
@@ -176,4 +200,5 @@ export {
   updateUsername,
   updatePassword,
   findUser,
+  updateProfileImage
 };

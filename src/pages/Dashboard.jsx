@@ -1,4 +1,4 @@
-import Header from "../components/components.jsx";
+import Header from "../components/components";
 
 
 function Dashboard(){
