@@ -8,6 +8,8 @@ import Profile from "./pages/Profile";
 import GuestRoute from "./components/GuestRoute";
 import ProtectedRoute from "./components/ProtectRoute";
 import VerifyEmail from "./pages/VerifyEmail";
+import AiPlan from "./pages/Aiplan";
+
 
 //This file is for placing links to pages
 
@@ -22,6 +24,7 @@ function App(){
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}></Route>
           <Route path="/gymplan" element={<ProtectedRoute><GymPlan /></ProtectedRoute>}></Route>
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>}></Route>
+          <Route path="/aiplan/:id" element={<ProtectedRoute><AiPlan /></ProtectedRoute>}></Route>
         </Routes>
         </main>
     );

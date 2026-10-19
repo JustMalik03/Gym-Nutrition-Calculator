@@ -14,6 +14,7 @@ import {
   findUser,
   updateProfileImage,
 } from "../middleware/userController.js";
+import { createGymPlan, getGymPlan } from "../middleware/gymPlanController.js";
 
 const router = express.Router();
 
@@ -92,5 +93,12 @@ router.put("/update-username", updateUsername);
 router.put("/update-password", updatePassword);
 
 router.post("/profile-upload/:userId", upload.single("avatar"), updateProfileImage);
+
+//STRICT ONLY REQUIRE AUTHENTICATED USERS BELOW THIS LINE
+
+router.post("/gym-plan", requireAuth, createGymPlan);
+
+router.get("/gym-plan/:id", requireAuth, getGymPlan);
+
 
 export default router;
