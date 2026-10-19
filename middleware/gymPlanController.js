@@ -56,4 +56,16 @@ const getGymPlan = async (req, res) => {
 
 }
 
-export { createGymPlan, getGymPlan };
+const getMyGymPlans = async (req, res) => {
+    try {
+        const gymPlans = (await GymPlan.find({ user: req.userId })).sort({ createdAt: -1 })
+        .select('answers.goal answers.daysPerWeek plan.summary createdAt');
+
+        res.status(200).json(gymPlans);
+    } catch (err) {
+        console.error("Error fetching gym plans:", err);
+        return res.status(500).json({ message: "Could not fetch your gym plans. Please try again." });
+    }
+}
+
+export { createGymPlan, getGymPlan, getMyGymPlans };
