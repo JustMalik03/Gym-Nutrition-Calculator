@@ -14,6 +14,8 @@ import {
 
 const router = express.Router();
 
+
+
 //Test for server status at this url
 //The initial await client..... to the response status is AI generated code
 router.get("/health", async (req, res) => {
@@ -51,5 +53,7 @@ router.post("/verify-email", verifyEmail);
 router.put("/update-username", updateUsername);
 
 router.put("/update-password", updatePassword);
+
+router.post("/profile-upload")
 
 export default router;

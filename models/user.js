@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema(
     hashedPassword: { type: String, required: true },
     emailToken: {type: String},
     isVerified: { type: Boolean, default: false },
+    avatarURL: {type: String, default: ""}
   },
   {
     timestamps: true

@@ -2,7 +2,9 @@ import express from "express";
 import "dotenv/config.js";
 import cors from "cors";
 import router from "../routes/api.js";
-import mongoose from "mongoose"; 
+import mongoose from "mongoose";
+import path from "path"; 
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -10,8 +12,12 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
+
 // Uses router to call api requests
 app.use("/api", router);
+
+
 
 const startServer = async () => {
   try {
