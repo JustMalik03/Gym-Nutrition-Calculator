@@ -4,7 +4,7 @@ import SignupPage from "./pages/SignupPage";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import GymPlan from "./pages/Gengymplan";
-import ProfileSettings from "./pages/ProfileSettings";
+import Profile from "./pages/Profile";
 import GuestRoute from "./components/GuestRoute";
 import ProtectedRoute from "./components/ProtectRoute";
 import VerifyEmail from "./pages/VerifyEmail";
@@ -21,7 +21,7 @@ function App(){
           <Route path="/verify-email" element={<VerifyEmail />}></Route>
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}></Route>
           <Route path="/gymplan" element={<ProtectedRoute><GymPlan /></ProtectedRoute>}></Route>
-          <Route path="/settings" element={<ProtectedRoute><ProfileSettings /></ProtectedRoute>}></Route>
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>}></Route>
         </Routes>
         </main>
     );

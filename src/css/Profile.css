@@ -1,0 +1,158 @@
+.settings-container {
+  width: 60vw;
+  max-width: 500px;
+  min-height: 300px;
+  margin: 0 auto;
+  padding: 2em;
+  background-color: white;
+  border-radius: 3%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.btn-update {
+  display: block;
+  width: 60%;
+  margin: 1em auto;
+  height: 2em;
+  min-width: 300px;
+  font-size: 1.2rem;
+  background-color: var(--electric-aqua);
+  border: none;
+  border-radius: 5px;
+  color: linen;
+  transition: 0.2s all;
+}
+
+.btn-update:hover {
+  cursor: pointer;
+  background-color: oklch(from var(--electric-aqua) calc(l * 0.8) c h);
+  transition: 0.2s all;
+}
+
+.avatar-image-container {
+  position: relative;
+  inset: 0px;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.9rem auto;
+}
+
+.avatar-edit-btn {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-color: var(--malachite);
+  border: 2px solid black;
+  border-radius: 50%;
+  cursor: pointer;
+  anchor-name: --edit-avatar-btn;
+  transition: 0.2s background-color ease;
+  
+}
+
+.avatar-edit-btn:hover {
+  background-color: oklch(from var(--malachite) calc(l * 1.2) c h);
+}
+
+
+.verified-badge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--malachite);
+  width: 23px;
+  height: 23px;
+  border: 2px solid black;
+  border-radius: 50%;
+}
+
+.profile-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 30px 0;
+  flex-direction: column;
+  width: 100%;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-evenly;
+}
+
+.profile-info p {
+  margin: 0;
+}
+
+.input-info {
+  margin: 6px 0 0 0;
+  text-align: left;
+}
+
+.icon {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+#avatar-menu {
+  position: absolute;
+  position-anchor: edit-avatar-btn;
+  position-area: bottom span-right;
+  margin-top: 9px;
+  width: max-content;
+  border: 2px solid var(--malachite);
+  border-radius: 0.5em;
+  background-color: white;
+}
+
+.error-message{
+  color: red;
+  text-align: center;
+}
+
+#menu:popover-open {
+  display: grid;
+}
+
+.avatar-btn {
+  border: none;
+  border-radius: 0.5em;
+  padding: 0.8em;
+  background-color: white;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s background-color ease;
+}
+
+.avatar-btn:hover {
+  background-color: oklch(from white calc(l * 0.8) c h);
+}
+
+
+.avatar-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--malachite);
+  border: 3px solid black;
+  border-radius: 50%;
+}
+.avatar-image {
+  width: 95%;
+  height: 95%;
+  border-radius: 50%;
+}

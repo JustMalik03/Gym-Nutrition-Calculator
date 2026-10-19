@@ -1,6 +1,8 @@
 import express from "express";
 import { MongoClient } from "mongodb";
 import User from "../models/user.js";
+import multer from "multer";
+import path from "path";
 import "dotenv/config.js";
 import requireAuth from "../middleware/requireAuth.js";
 import {
@@ -10,11 +12,44 @@ import {
   updatePassword,
   verifyEmail,
   findUser,
+  updateProfileImage,
 } from "../middleware/userController.js";
 
 const router = express.Router();
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./public/uploads/");
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(
+      null,
+      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname),
+    );
+  },
+});
 
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
+
+  const mimeType = allowedTypes.includes(file.mimetype);
+  if (mimeType) {
+    return cb(null, true);
+  } else {
+    return cb(
+      new Error(
+        "Incorrect file type. Only jpeg, png, and jpg formats are allowed.",
+      ),
+    );
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  limits: {fileSize: 5 * 1024 * 1024},
+  fileFilter: fileFilter
+});
 
 //Test for server status at this url
 //The initial await client..... to the response status is AI generated code
@@ -32,7 +67,9 @@ router.get("/health", async (req, res) => {
 // Returns the logged-in user's info (used by the frontend to check the token is still valid)
 router.get("/me", requireAuth, async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select("username email isVerified");
+    const user = await User.findById(req.userId).select(
+      "username email isVerified avatarURL createdAt id",
+    );
     if (!user)
       return res.status(401).json({ message: "User no longer exists." });
 
@@ -54,6 +91,6 @@ router.put("/update-username", updateUsername);
 
 router.put("/update-password", updatePassword);
 
-router.post("/profile-upload")
+router.post("/profile-upload/:userId", upload.single("avatar"), updateProfileImage);
 
 export default router;
