@@ -14,11 +14,14 @@ function Header() {
                     <>
                         <span id="userwelcome"><a href="/dashboard">Welcome, {user.username}!</a></span>
                         <button onClick={logout}>Logout</button>
+                        <Link to="/myplans">My Plans</Link>
+
                     </>
                 ) : (
                     <>
                         <Link to="/login">Login</Link>
                         <Link to="/signup">Sign Up</Link>
+
                     </>
                 )}
             </nav>

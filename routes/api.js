@@ -14,7 +14,7 @@ import {
   findUser,
   updateProfileImage,
 } from "../middleware/userController.js";
-import { createGymPlan, getGymPlan } from "../middleware/gymPlanController.js";
+import { createGymPlan, getGymPlan, getMyGymPlans } from "../middleware/gymPlanController.js";
 
 const router = express.Router();
 
@@ -99,6 +99,9 @@ router.post("/profile-upload/:userId", upload.single("avatar"), updateProfileIma
 router.post("/gym-plan", requireAuth, createGymPlan);
 
 router.get("/gym-plan/:id", requireAuth, getGymPlan);
+
+router.get("/gym-plan", requireAuth, getMyGymPlans);
+
 
 
 export default router;

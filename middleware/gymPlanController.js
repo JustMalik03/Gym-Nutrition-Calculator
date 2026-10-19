@@ -58,8 +58,9 @@ const getGymPlan = async (req, res) => {
 
 const getMyGymPlans = async (req, res) => {
     try {
-        const gymPlans = (await GymPlan.find({ user: req.userId })).sort({ createdAt: -1 })
-        .select('answers.goal answers.daysPerWeek plan.summary createdAt');
+        const gymPlans = await GymPlan.find({ user: req.userId })
+            .sort({ createdAt: -1 })
+            .select("answers.goal answers.daysPerWeek plan.summary createdAt");
 
         res.status(200).json(gymPlans);
     } catch (err) {

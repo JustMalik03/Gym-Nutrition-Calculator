@@ -9,6 +9,7 @@ import GuestRoute from "./components/GuestRoute";
 import ProtectedRoute from "./components/ProtectRoute";
 import VerifyEmail from "./pages/VerifyEmail";
 import AiPlan from "./pages/Aiplan";
+import MyPlans from "./pages/MyPlans";
 
 
 //This file is for placing links to pages
@@ -25,7 +26,9 @@ function App(){
           <Route path="/gymplan" element={<ProtectedRoute><GymPlan /></ProtectedRoute>}></Route>
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>}></Route>
           <Route path="/aiplan/:id" element={<ProtectedRoute><AiPlan /></ProtectedRoute>}></Route>
-        </Routes>
+          <Route path="/myplans" element={<ProtectedRoute><MyPlans /></ProtectedRoute>}></Route>
+
+       </Routes>
         </main>
     );
 }
