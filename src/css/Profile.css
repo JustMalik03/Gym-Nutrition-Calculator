@@ -1,4 +1,4 @@
-.settings-container {
+.form-container {
   width: 60vw;
   max-width: 500px;
   min-height: 300px;
@@ -7,6 +7,10 @@
   background-color: white;
   border-radius: 3%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+#profile-section .form-container {
+  margin-top: 7.54rem;
 }
 
 .btn-update {
@@ -109,7 +113,7 @@
   position: absolute;
   position-anchor: edit-avatar-btn;
   position-area: bottom span-right;
-  margin-top: 9px;
+  margin-top: 0.4rem;
   width: max-content;
   border: 2px solid var(--malachite);
   border-radius: 0.5em;
@@ -125,7 +129,7 @@
   display: grid;
 }
 
-.avatar-btn {
+.menu-btn {
   border: none;
   border-radius: 0.5em;
   padding: 0.8em;
@@ -136,7 +140,7 @@
   transition: 0.2s background-color ease;
 }
 
-.avatar-btn:hover {
+.menu-btn:hover {
   background-color: oklch(from white calc(l * 0.8) c h);
 }
 

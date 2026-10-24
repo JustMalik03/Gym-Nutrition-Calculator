@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import Header from "../components/components";
 
 import "../css/LoginPage.css";
 
@@ -40,9 +41,10 @@ function LoginPage() {
 
   return (
     <>
-      <h1>Login</h1>
+      <Header/>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="email">Email:</label>
+         <h1>Login</h1>
+        <label htmlFor="email">Email</label>
         <input
           type="email"
           name="email"
@@ -58,7 +60,7 @@ function LoginPage() {
           <span className="error-message">{errors.email.message}</span>
         )}
         <div>
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             name="password"
@@ -74,11 +76,10 @@ function LoginPage() {
             <span className="error-message">{errors.password.message}</span>
           )}
         </div>
-        <input type="submit" id="login-btn" value="Submit" />
+        <input type="submit" id="login-btn" value="Login" />
         <p>
           Need to create an account? <Link to="/signup">Sign up here!</Link>
         </p>
-        <p>Want to go home page? <Link to="/">Home</Link></p>
       </form>
     </>
   );

@@ -16,6 +16,7 @@ body {
   background-color: aliceblue;
 }
 
+
 * {
   padding: 0;
   margin: 0;
@@ -33,6 +34,7 @@ form {
   max-width: 500px;
   min-height: 300px;
   margin: 0 auto;
+  margin-top: 7.54rem;
   padding: 2em;
   background-color: white;
   border-radius: 3%;
@@ -50,13 +52,14 @@ input:not([type="submit"]) {
   min-height: 2em;
   padding: 0.8em;
   font-size: 1rem;
-  background-color: var(--input-bg);
+  outline: none;
+  border: 2px solid var(--dark-slate-grey);
   transition: 0.3s all;
-  border-radius: 8px;
+  border-radius: 0.5rem;
 }
 
 input:not([type="submit"]):focus {
-  background-color: white;
+  border-color: var(--electric-aqua);
   transition: 0.3s all;
 }
 

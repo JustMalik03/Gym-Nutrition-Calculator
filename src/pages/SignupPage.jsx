@@ -5,6 +5,7 @@ import { useState } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { useAuth } from "../context/AuthContext";
+import Header from "../components/components";
 
 function SignupPage() {
   const {
@@ -51,8 +52,9 @@ function SignupPage() {
 
   return (
     <>
-      <h1>Sign Up</h1>
+      <Header/>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <h1>Sign Up</h1>
         {/* Username Field */}
         <div>
           <input
@@ -137,9 +139,6 @@ function SignupPage() {
         <input type="submit" value="Sign Up" />
         <p>
           Already have an account? <Link to="/login">Login here!</Link>
-        </p>
-        <p>
-          Want to go home page? <Link to="/">Home</Link>
         </p>
       </form>
       <div>

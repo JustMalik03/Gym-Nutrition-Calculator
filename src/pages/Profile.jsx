@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { FaPencilAlt, FaCalendar, FaCheck, FaRegSave } from "react-icons/fa";
 import { BsUpload } from "react-icons/bs";
 import "../css/Profile.css";
+import Header from "../components/components";
 
 function Profile() {
   const { user, updateUser } = useAuth();
@@ -12,8 +13,6 @@ function Profile() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [errMessage, setErrMessage] = useState("");
-
-  
 
   const email = user.email;
   const avatarRef = useRef(null);
@@ -96,13 +95,13 @@ function Profile() {
     formData.append("username", user.username);
     formData.append("avatar", selectedFile);
     if (!selectedFile) {
-      setErrMessage("Please select a file")
+      setErrMessage("Please select a file");
       return;
     }
     try {
       const res = await fetch(`/api/profile-upload/${user.userId}`, {
         method: "POST",
-        body: formData
+        body: formData,
       });
 
       const data = await res.json();
@@ -119,86 +118,96 @@ function Profile() {
 
   return (
     <>
-      <h1>Profile Settings</h1>
-      <div className="settings-container">
-        <div className="avatar-image-container">
-          <button className="avatar-edit-btn" popoverTarget="avatar-menu">
-            <FaPencilAlt />
-          </button>
-          <div className="avatar-circle">
-            <img
-              className="avatar-image"
-              src={user.avatarURL}
-              alt="profile image"
-            />
-          </div>
-        </div>
-        <div className="profile-info">
-          <div className="user-info">
-          <h2>{user.username}</h2> 
-          {user.isVerified && (
-            <div className="verified-badge" aria-label="verifed badge">
-              <FaCheck size="0.8rem" />
-            </div>
-          )}
-          </div>
-          <p><FaCalendar className="icon" /> Joined {formatDate}</p>
-          <p><BsUpload className="icon" /> Max upload size 5MB (PNG, JPEG, JPG)</p>
-          <button className="btn-update" onClick={handleFileUpload}><FaRegSave /> Save Avatar</button>
-          {errMessage && (<p className="error-message">{errMessage}</p>)}
-        </div>
-        <div id="avatar-menu" popover="auto">
-          <button className="avatar-btn" onClick={handleAvatarBtnClick}>
-            <BsUpload className="icon"/> Change avatar image
-          </button>
-          <input
-            ref={avatarRef}
-            type="file"
-            accept=".jpg,.jpeg,.png"
-            onChange={handleFileChange}
-            style={{ display: "none" }}
-          />
-        </div>
-        <div>
-          <label htmlFor="username">Username</label>
-          <p className="input-info">4-27 characters</p>
-          <input
-            type="text"
-            id="username"
-            value={newUsername}
-            onChange={(e) => {
-              setNewUsername(e.target.value);
-            }}
-          />
-          {newUsername !== user.username &&
-            newUsername.length >= 4 &&
-            newUsername.length < 26 && (
-              <button className="btn-update" onClick={handleUpdateUsername}>
-                Update Username
+        <Header />
+        <main id="profile-section">
+          <div className="form-container">
+            <div className="avatar-image-container">
+              <button className="avatar-edit-btn" popoverTarget="avatar-menu">
+                <FaPencilAlt />
               </button>
-            )}
-        </div>
-        <div>
-          <label htmlFor="new-password">Change Password</label>
-          <input
-            type="password"
-            id="new-password"
-            placeholder="Password"
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-          <input
-            type="password"
-            id="confirm-newPassword"
-            placeholder="Confirm Password"
-            onChange={(e) => setConfirmNewPassword(e.target.value)}
-          />
-          {(newPassword || confirmNewPassword) && (
-            <button className="btn-update" onClick={handleUpdatePassword}>
-              Update Password
-            </button>
-          )}
-        </div>
-      </div>
+              <div className="avatar-circle">
+                <img
+                  className="avatar-image"
+                  src={user.avatarURL}
+                  alt="profile image"
+                />
+              </div>
+            </div>
+            <div className="profile-info">
+              <div className="user-info">
+                <h2>{user.username}</h2>
+                {user.isVerified && (
+                  <div className="verified-badge" aria-label="verifed badge">
+                    <FaCheck size="0.8rem" />
+                  </div>
+                )}
+              </div>
+              <p>
+                <FaCalendar className="icon" /> Joined {formatDate}
+              </p>
+              <p>
+                <BsUpload className="icon" /> Max upload size 5MB (PNG, JPEG,
+                JPG)
+              </p>
+              <button className="btn-update" onClick={handleFileUpload}>
+                <FaRegSave /> Save Avatar
+              </button>
+              {errMessage && <p className="error-message">{errMessage}</p>}
+            </div>
+            <div id="avatar-menu" popover="auto">
+              <button className="menu-btn" onClick={handleAvatarBtnClick}>
+                <BsUpload className="icon" /> Change avatar image
+              </button>
+              <input
+                ref={avatarRef}
+                type="file"
+                accept=".jpg,.jpeg,.png"
+                onChange={handleFileChange}
+                style={{ display: "none" }}
+              />
+            </div>
+            <div>
+              <label htmlFor="username">Username</label>
+              <p className="input-info">4-27 characters, letters and numbers only</p>
+              <input
+                type="text"
+                id="username"
+                value={newUsername}
+                onChange={(e) => {
+                  setNewUsername(e.target.value);
+                }}
+              />
+              {newUsername !== user.username &&
+                newUsername.length >= 4 &&
+                newUsername.length < 26 && (
+                  <button className="btn-update" onClick={handleUpdateUsername}>
+                    Update Username
+                  </button>
+                )}
+            </div>
+            <div>
+              <label htmlFor="new-password">Change Password</label>
+              <p className="input-info">Must be at least 8 characters</p>
+              <input
+                type="password"
+                id="new-password"
+                placeholder="Password"
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+              <input
+                type="password"
+                id="confirm-newPassword"
+                placeholder="Confirm Password"
+                onChange={(e) => setConfirmNewPassword(e.target.value)}
+              />
+              {(newPassword || confirmNewPassword) && (
+                <button className="btn-update" onClick={handleUpdatePassword}>
+                  Update Password
+                </button>
+              )}
+            </div>
+          </div>
+      </main>
     </>
   );
 }
