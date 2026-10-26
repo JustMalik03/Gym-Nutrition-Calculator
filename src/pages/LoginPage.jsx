@@ -6,13 +6,12 @@ import Header from "../components/components";
 import "../css/LoginPage.css";
 
 function LoginPage() {
-  
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  
+
   // Handle form submission
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -41,13 +40,14 @@ function LoginPage() {
 
   return (
     <>
-      <Header/>
-      <form onSubmit={handleSubmit(onSubmit)}>
-         <h1>Login</h1>
-        <label htmlFor="email">Email</label>
+      <Header />
+      <form onSubmit={handleSubmit(onSubmit)} className="form-container">
+        <h1>Login</h1>
         <input
           type="email"
           name="email"
+          className="input"
+          placeholder="Email Address"
           {...register("email", {
             required: "Email is required",
             pattern: {
@@ -60,10 +60,11 @@ function LoginPage() {
           <span className="error-message">{errors.email.message}</span>
         )}
         <div>
-          <label htmlFor="password">Password</label>
           <input
             type="password"
             name="password"
+            placeholder="Password"
+            className="input"
             {...register("password", {
               required: "Password is required",
               minLength: {
@@ -76,10 +77,11 @@ function LoginPage() {
             <span className="error-message">{errors.password.message}</span>
           )}
         </div>
-        <input type="submit" id="login-btn" value="Login" />
-        <p>
-          Need to create an account? <Link to="/signup">Sign up here!</Link>
-        </p>
+        <input type="submit" className="submit-btn" value="Login" />
+        <div id="redirect-links">
+          <Link to="/requestReset">Forgot Password?</Link>
+          <Link to="/signup">Sign Up</Link>
+        </div>
       </form>
     </>
   );

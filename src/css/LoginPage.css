@@ -22,14 +22,14 @@ body {
   margin: 0;
 }
 
-h1,
-p {
+.form-container h1,
+.form-container p {
   text-align: center;
   color: var(--dark-slate-grey);
   margin: 1em auto;
 }
 
-form {
+.form-container {
   width: 60vw;
   max-width: 500px;
   min-height: 300px;
@@ -41,12 +41,22 @@ form {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-a:hover {
+#redirect-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-container a:hover {
   color: var(--link-hover);
   transition: 0.3s all;
 }
 
-input:not([type="submit"]) {
+.form-container a {
+  text-decoration: none;
+}
+
+.input {
   margin: 15px 0;
   width: 100%;
   min-height: 2em;
@@ -58,7 +68,7 @@ input:not([type="submit"]) {
   border-radius: 0.5rem;
 }
 
-input:not([type="submit"]):focus {
+.input:focus {
   border-color: var(--electric-aqua);
   transition: 0.3s all;
 }
@@ -68,7 +78,7 @@ input:not([type="submit"]):focus {
   text-align: left;
 }
 
-input[type="submit"] {
+.submit-btn {
   display: block;
   width: 60%;
   margin: 1em auto;
@@ -82,7 +92,7 @@ input[type="submit"] {
   transition: 0.2s all;
 }
 
-input[type="submit"]:hover {
+.submit-btn:hover {
   cursor: pointer;
   background-color: oklch(from var(--malachite) calc(l * 0.8) c h);
   transition: 0.2s all;

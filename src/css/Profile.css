@@ -1,14 +1,3 @@
-.form-container {
-  width: 60vw;
-  max-width: 500px;
-  min-height: 300px;
-  margin: 0 auto;
-  padding: 2em;
-  background-color: white;
-  border-radius: 3%;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-
 #profile-section .form-container {
   margin-top: 7.54rem;
 }
@@ -99,7 +88,7 @@
   margin: 0;
 }
 
-.input-info {
+.form-container .input-info {
   margin: 6px 0 0 0;
   text-align: left;
 }

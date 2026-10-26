@@ -8,11 +8,7 @@ function Dashboard(){
         
         
         <main className="home-content">
-        <h1> Dashboard code</h1>
-        <h1> Dashboard code</h1>
-
-        <h1> Dashboard code</h1>
-        <h1> Dashboard code</h1>
+        <h1>WIP</h1>
         </main>
 
         </>

@@ -173,6 +173,7 @@ function Profile() {
                 type="text"
                 id="username"
                 value={newUsername}
+                className="input"
                 onChange={(e) => {
                   setNewUsername(e.target.value);
                 }}
@@ -192,12 +193,14 @@ function Profile() {
                 type="password"
                 id="new-password"
                 placeholder="Password"
+                className="input"
                 onChange={(e) => setNewPassword(e.target.value)}
               />
               <input
                 type="password"
                 id="confirm-newPassword"
                 placeholder="Confirm Password"
+                className="input"
                 onChange={(e) => setConfirmNewPassword(e.target.value)}
               />
               {(newPassword || confirmNewPassword) && (
