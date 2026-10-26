@@ -40,7 +40,7 @@
 #website-menu {
   width: max-content;
   margin-top: 0.4rem;
-  position: absolute;
+  position: fixed;
   position-anchor: header-img;
   position-area: bottom span-left;
   border: 2px solid var(--malachite);

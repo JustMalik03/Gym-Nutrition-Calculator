@@ -79,7 +79,7 @@ function LoginPage() {
         </div>
         <input type="submit" className="submit-btn" value="Login" />
         <div id="redirect-links">
-          <Link to="/requestReset">Forgot Password?</Link>
+          <Link to="/passwords/reset">Forgot Password?</Link>
           <Link to="/signup">Sign Up</Link>
         </div>
       </form>

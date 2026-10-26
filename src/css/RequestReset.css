@@ -1,0 +1,54 @@
+#reset-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.reset-container h3 {
+    color: var(--dark-slate-grey);
+}
+
+.reset-container {
+    margin-bottom: 0.9rem;
+}
+
+.submit-container {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 6px;
+    margin-top: 2.56rem;
+}
+
+.check-icon {
+    color: green;
+}
+
+#check-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.79rem;
+}
+
+#success-info p {
+    text-align: center;
+}
+
+#continue-btn {
+    display: block;
+    border: none;
+    border-radius: 0.4rem;
+    width: max-content;
+    font-size: 0.84rem;
+    font-weight: bold;
+    background-color: var(--electric-aqua);
+    color: oklch(from var(--electric-aqua) calc(l * 0.2) c h);
+    padding: 0.75em;
+    transition: 0.3s all ease;
+}
+
+#continue-btn:hover {
+    cursor: pointer;
+    background-color: oklch(from var(--electric-aqua) calc(l * 0.8) c h);
+}

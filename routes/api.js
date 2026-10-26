@@ -15,6 +15,7 @@ import {
   updateProfileImage,
 } from "../middleware/userController.js";
 import { createGymPlan, getGymPlan, getMyGymPlans } from "../middleware/gymPlanController.js";
+import { requestReset, resetPassword } from "../middleware/authController.js";
 
 const router = express.Router();
 
@@ -88,11 +89,17 @@ router.post("/login", loginUser);
 
 router.post("/verify-email", verifyEmail);
 
+router.post("/profile-upload/:userId", upload.single("avatar"), updateProfileImage);
+
+router.post("/requestReset", requestReset);
+
+router.post("/reset", resetPassword);
+
 router.put("/update-username", updateUsername);
 
 router.put("/update-password", updatePassword);
 
-router.post("/profile-upload/:userId", upload.single("avatar"), updateProfileImage);
+
 
 //STRICT ONLY REQUIRE AUTHENTICATED USERS BELOW THIS LINE
 

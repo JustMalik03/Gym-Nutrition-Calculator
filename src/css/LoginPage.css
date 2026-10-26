@@ -6,6 +6,8 @@
   --electric-aqua: #26c5dd;
   --link-hover: rgb(66, 173, 254);
   --input-bg: rgb(238, 238, 238);
+  --info-text: #706f6f;
+  --back: #afaeae;
 }
 
 body {
@@ -22,8 +24,7 @@ body {
   margin: 0;
 }
 
-.form-container h1,
-.form-container p {
+.form-container h1 {
   text-align: center;
   color: var(--dark-slate-grey);
   margin: 1em auto;
@@ -37,6 +38,7 @@ body {
   margin-top: 7.54rem;
   padding: 2em;
   background-color: white;
+  border: 1px solid var(--info-text);
   border-radius: 3%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
@@ -73,6 +75,11 @@ body {
   transition: 0.3s all;
 }
 
+.input-info {
+  text-align: left;
+  color: var(--info-text);
+}
+
 .error-message {
   color: red;
   text-align: left;
@@ -87,7 +94,7 @@ body {
   font-size: 1.2rem;
   background-color: var(--malachite);
   border: none;
-  border-radius: 5px;
+  border-radius: 0.4rem;
   color: linen;
   transition: 0.2s all;
 }
