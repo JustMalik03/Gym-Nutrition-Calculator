@@ -8,10 +8,12 @@ import Profile from "./pages/Profile";
 import GuestRoute from "./components/GuestRoute";
 import ProtectedRoute from "./components/ProtectRoute";
 import VerifyEmail from "./pages/VerifyEmail";
-import AiPlan from "./pages/Aiplan";
+import AiGymPlan from "./pages/Aigymplan";
 import MyPlans from "./pages/MyPlans";
 import RequestReset from "./pages/RequestReset";
 import ResetPassword from "./pages/ResetPassword";
+import NutritionPlan from "./pages/Gennutritionplan";
+import AiNutritionPlan from "./pages/Ainutritionplan";
 
 
 //This file is for placing links to pages
@@ -29,8 +31,10 @@ function App(){
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}></Route>
           <Route path="/gymplan" element={<ProtectedRoute><GymPlan /></ProtectedRoute>}></Route>
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>}></Route>
-          <Route path="/aiplan/:id" element={<ProtectedRoute><AiPlan /></ProtectedRoute>}></Route>
+          <Route path="/aigymplan/:id" element={<ProtectedRoute><AiGymPlan /></ProtectedRoute>}></Route>
           <Route path="/myplans" element={<ProtectedRoute><MyPlans /></ProtectedRoute>}></Route>
+          <Route path="/nutritionplan" element={<ProtectedRoute><NutritionPlan /></ProtectedRoute>}></Route>
+          <Route path="/ainutritionplan/:id" element={<ProtectedRoute><AiNutritionPlan /></ProtectedRoute>}></Route>
 
        </Routes>
         </main>

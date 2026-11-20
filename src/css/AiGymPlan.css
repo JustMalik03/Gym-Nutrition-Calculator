@@ -1,0 +1,64 @@
+
+
+.aigymplan {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1rem 2rem;
+}
+
+.aigymplan p {
+    text-align: left;
+    margin: 0.5rem;
+}
+
+.aigymplan-summary {
+    font-size: 1.1rem;
+}
+
+.aigymplan h2 {
+    color: #214f4b;
+    margin: 0 0 0.5rem;
+}
+
+
+.aigymplan-day {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: rgba(1, 1, 1, 1) 0px 2px 8px;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem ;
+}
+
+
+.aigymplan-table {
+    width: 100%;
+    border-collapse: collapse;   
+    margin-top: 0.75rem;
+}
+
+.aigymplan-table th,
+.aigymplan-table td {
+    text-align: left;
+    padding: 0.5rem;             
+    border-bottom: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.aigymplan-table th {
+    background-color: #214f4b;
+    color: white;
+}
+
+.aigymplan-notes {
+    font-size: 0.85rem;
+    color: #555;
+    margin-top: 0.25rem;
+}
+
+.aigymplan-tips {
+    padding-left: 1.5rem;
+}
+
+.aigymplan-tips li {
+    margin: 0.4rem 0;
+}
