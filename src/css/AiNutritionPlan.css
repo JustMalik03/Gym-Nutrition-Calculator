@@ -1,27 +1,27 @@
 
 
-.aiplan {
+.ainutritionplan {
     max-width: 800px;
     margin: 0 auto;
     padding: 0 1rem 2rem;
 }
 
-.aiplan p {
+.ainutritionplan p {
     text-align: left;
     margin: 0.5rem;
 }
 
-.aiplan-summary {
+.ainutritionplan-summary {
     font-size: 1.1rem;
 }
 
-.aiplan h2 {
+.ainutritionplan h2 {
     color: #214f4b;
     margin: 0 0 0.5rem;
 }
 
 
-.aiplan-day {
+.ainutritionplan-day {
     background-color: white;
     border-radius: 8px;
     box-shadow: rgba(1, 1, 1, 1) 0px 2px 8px;
@@ -30,35 +30,35 @@
 }
 
 
-.aiplan-table {
+.ainutritionplan-table {
     width: 100%;
     border-collapse: collapse;   
     margin-top: 0.75rem;
 }
 
-.aiplan-table th,
-.aiplan-table td {
+.ainutritionplan-table th,
+.ainutritionplan-table td {
     text-align: left;
     padding: 0.5rem;             
     border-bottom: 1px solid #ddd;
     vertical-align: top;
 }
 
-.aiplan-table th {
+.ainutritionplan-table th {
     background-color: #214f4b;
     color: white;
 }
 
-.aiplan-notes {
+.ainutritionplan-notes {
     font-size: 0.85rem;
     color: #555;
     margin-top: 0.25rem;
 }
 
-.aiplan-tips {
+.ainutritionplan-tips {
     padding-left: 1.5rem;
 }
 
-.aiplan-tips li {
+.ainutritionplan-tips li {
     margin: 0.4rem 0;
 }

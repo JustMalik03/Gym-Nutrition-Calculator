@@ -36,7 +36,7 @@ const onSubmit = async (data) => {
         const result = await res.json();
 
         if (res.ok) {
-            navigate(`/aiplan/${result.id}`);
+            navigate(`/aigymplan/${result.id}`);
         } else {
             setServerError(result.message || "An error occurred while creating the gym plan.");
         }

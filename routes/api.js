@@ -15,6 +15,7 @@ import {
   updateProfileImage,
 } from "../middleware/userController.js";
 import { createGymPlan, getGymPlan, getMyGymPlans } from "../middleware/gymPlanController.js";
+import { createNutritionPlan, getNutritionPlan, getMyNutritionPlans } from "../middleware/nutritionPlanController.js";
 import { requestReset, resetPassword } from "../middleware/authController.js";
 
 const router = express.Router();
@@ -109,6 +110,11 @@ router.get("/gym-plan/:id", requireAuth, getGymPlan);
 
 router.get("/gym-plan", requireAuth, getMyGymPlans);
 
+router.post("/nutrition-plan", requireAuth, createNutritionPlan);
+
+router.get("/nutrition-plan/:id", requireAuth, getNutritionPlan);
+
+router.get("/nutrition-plan", requireAuth, getMyNutritionPlans);
 
 
 export default router;

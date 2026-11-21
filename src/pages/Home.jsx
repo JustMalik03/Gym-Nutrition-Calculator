@@ -32,6 +32,7 @@ function Home() {
                         title="Generate Nutrition Plan"
                         description="Get a customized nutrition plan to complement your gym routine."
                         imageUrl="/images/food.jpg"
+                        link="/nutritionplan"
                     />
                     <PlanCard
                         title="Track Progress"

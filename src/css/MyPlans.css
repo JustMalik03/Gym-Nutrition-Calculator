@@ -39,3 +39,12 @@
     font-size: 0.85rem;
     color: #666;
 }
+
+.planscontainer {
+    display: flex;
+    gap: 30px;
+}
+
+.planbox {
+    flex: 1;
+}

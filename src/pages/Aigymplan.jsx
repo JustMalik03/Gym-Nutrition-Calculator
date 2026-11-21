@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/components.jsx";
-import { useAuth } from "../context/AuthContext";
-import "../css/AiPlan.css";
+import { useAuth } from "../context/AuthContext.jsx";
+import "../css/AiGymPlan.css";
 
 
-function AiPlan() {
+function AiGymPlan() {
     const { id } = useParams(); // the plan id from the URL /aiplan/:id
     const { authFetch } = useAuth();
     const [gymPlan, setGymPlan] = useState(null);
@@ -49,16 +49,16 @@ function AiPlan() {
                 )}
                 {/* The AI's plan also AI gen */}
                 {plan && (
-                    <div className="aiplan">
-                        <p className="aiplan-summary">{plan.summary}</p>
+                    <div className="aigymplan">
+                        <p className="aigymplan-summary">{plan.summary}</p>
 
                         {/* One card per day */}
                         {plan.days.map((day) => (
-                            <section className="aiplan-day" key={day.day}>
+                            <section className="aigymplan-day" key={day.day}>
                                 <h2>{day.day}: {day.focus}</h2>
                                 <p><strong>Warm-up:</strong> {day.warmup}</p>
 
-                                <table className="aiplan-table">
+                                <table className="aigymplan-table">
                                     <thead>
                                         <tr>
                                             <th>Exercise</th>
@@ -73,7 +73,7 @@ function AiPlan() {
                                             <tr key={index}>
                                                 <td>
                                                     {exercise.name}
-                                                    <div className="aiplan-notes">{exercise.notes}</div>
+                                                    <div className="aigymplan-notes">{exercise.notes}</div>
                                                 </td>
                                                 <td>{exercise.sets}</td>
                                                 <td>{exercise.reps}</td>
@@ -86,7 +86,7 @@ function AiPlan() {
                         ))}
 
                         <h2>Tips</h2>
-                        <ul className="aiplan-tips">
+                        <ul className="aigymplan-tips">
                             {plan.tips.map((tip, index) => (
                                 <li key={index}>{tip}</li>
                             ))}
@@ -101,4 +101,4 @@ function AiPlan() {
     );
 }
 
-export default AiPlan;
+export default AiGymPlan;
