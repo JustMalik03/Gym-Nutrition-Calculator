@@ -2,7 +2,7 @@ import User from "../models/user.js";
 import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
 import crypto from "crypto";
-import sendVerificationEmail from "../utils/sendVerificationEmail.js";
+import validator from "validator";
 
 const createToken = (id) => {
   const jwtSecret = process.env.JWT_SECRET;
@@ -25,6 +25,10 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
+    if(!validator.isStrongPassword(password)){
+      return res.status(400).json({ message: "Bad password" });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const registerUser = new User({
@@ -34,11 +38,7 @@ const registerUser = async (req, res) => {
       emailToken: crypto.randomBytes(64).toString("hex"),
     });
 
-  
-
     await registerUser.save();
-
-    sendVerificationEmail(registerUser);
 
     const token = createToken(registerUser.id);
 

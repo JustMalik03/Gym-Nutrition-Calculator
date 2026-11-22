@@ -1,8 +1,32 @@
 body {
-    background-color: aliceblue;
+  background-color: aliceblue;
 }
 
 .error-message {
-    color: red;
-    text-align: left;
+  color: red;
+  text-align: left;
+}
+
+.checklist-container {
+    margin-top: 0.9rem;
+}
+
+.checklist {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.5rem;
+}
+
+.checklist li {
+  color: var(--info-text);
+}
+
+.checklist .valid::marker {
+  content: "\2705";
+  font-size: 1.1em;
+}
+
+.checklist .valid {
+  color: var(--valid);
 }

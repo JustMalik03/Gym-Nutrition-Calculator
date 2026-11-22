@@ -20,7 +20,7 @@ function Home() {
         <>
         <Header />
         <main className="home-content">
-                <h1 id="welcome">Welcome to the Gym Nutrition Calculator!</h1>
+                <h1 id="welcome">Welcome to FitBalancer!</h1>
                 <section className="plan-grid">
                     <PlanCard
                         title="Generate Gym Plan"

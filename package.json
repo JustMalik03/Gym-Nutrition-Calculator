@@ -23,14 +23,15 @@
     "mongodb": "^7.6.0",
     "mongoose": "^9.10.2",
     "multer": "^2.4.0",
-    "openai": "^7.34.0",
     "nodemailer": "^10.0.16",
+    "openai": "^7.34.0",
     "path": "^0.12.7",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-hook-form": "^7.88.0",
     "react-icons": "^5.7.0",
     "react-router-dom": "^7.18.4",
+    "validator": "^13.15.35",
     "zod": "^4.6.7"
   },
   "devDependencies": {

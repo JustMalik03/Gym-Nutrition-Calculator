@@ -8,6 +8,9 @@
   --input-bg: rgb(238, 238, 238);
   --info-text: #706f6f;
   --back: #afaeae;
+  --valid: #32b33d;
+  --menu-btn-bg: #b3f5a1;
+  --signout-btn-bg: #fa9797;
 }
 
 body {
@@ -104,5 +107,6 @@ body {
   background-color: oklch(from var(--malachite) calc(l * 0.8) c h);
   transition: 0.2s all;
 }
+
 
 
