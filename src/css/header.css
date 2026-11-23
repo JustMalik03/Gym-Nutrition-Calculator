@@ -1,5 +1,5 @@
 .home-header {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   z-index: 10;
@@ -7,11 +7,11 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  min-height: 76px;
+  min-height: 64px;
   padding: 1rem 2rem;
   vertical-align: middle;
   border-bottom: 2px solid oklch(from aliceblue calc(l * 0.2) c calc(h * 1.3));
-  background-color: oklch(from aliceblue calc(l * 0.9) c calc(h * 1.3));
+  background-color: oklch(from aliceblue calc(l * 0.95) c calc(h * 1.3));
 }
 
 #header-title {

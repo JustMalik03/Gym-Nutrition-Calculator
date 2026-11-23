@@ -1,7 +1,17 @@
 import { useState, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
-import { FaPencilAlt, FaCalendar, FaCheck, FaRegSave } from "react-icons/fa";
+import {
+  FaPencilAlt,
+  FaCalendar,
+  FaCheck,
+  FaRegSave,
+  FaKey,
+  FaUser,
+  FaLock
+} from "react-icons/fa";
+import { LuUserPen } from "react-icons/lu";
 import { BsUpload } from "react-icons/bs";
+import { MdEmail } from "react-icons/md";
 import "../css/Profile.css";
 import Header from "../components/components";
 
@@ -31,9 +41,18 @@ function Profile() {
     "December",
   ];
   const isodate = new Date(user.createdAt);
+  const passRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W])[A-Za-z\d\W]{8,}$/;
+  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const joinDate = isodate.toLocaleDateString("en-US");
   const [month, day, year] = joinDate.split("/");
   const formatDate = `${months[month - 1]}, ${day}, ${year}`;
+  const validUsername = useRef(false);
+  const validPassword = useRef(false);
+  const validMatchPassword = useRef(false);
+  const validEmail = useRef(false);
+  const validVerifyPassword = useRef(false);
+  const [verifyEmailPassword, setVerifyEmailPassword] = useState("");
 
   const handleUpdateUsername = async () => {
     try {
@@ -56,6 +75,21 @@ function Profile() {
     }
   };
 
+  const handleUsernameValidation = (e) => {
+    const username = e.target.value.trim();
+    setNewUsername(e.target.value);
+    if (
+      username.length >= 4 &&
+      username.length < 26 &&
+      username !== user.username &&
+      /^[a-zA-Z0-9]+$/.test(username)
+    ) {
+      validUsername.current = true;
+    } else {
+      validUsername.current = false;
+    }
+  };
+
   const handleUpdatePassword = async () => {
     try {
       const res = await fetch("/api/update-password", {
@@ -63,7 +97,7 @@ function Profile() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ newPassword, email }),
+        body: JSON.stringify({ newPassword, confirmNewPassword, email }),
       });
 
       if (res.ok) {
@@ -107,6 +141,7 @@ function Profile() {
       const data = await res.json();
 
       if (res.ok) {
+        updateUser({ ...user, avatarURL: data.filePath });
         console.log("Upload successful!");
       } else {
         console.log("Failed to upload image");
@@ -116,101 +151,234 @@ function Profile() {
     }
   };
 
+  const handleNewPasswordValidation = (e) => {
+    const pass = e.target.value;
+    setNewPassword(pass);
+    if (passRegex.test(pass)) {
+      console.log("Valid password");
+      validPassword.current = true;
+    } else {
+      validPassword.current = false;
+    }
+  };
+
+  const handleConfirmPasswordValidation = (e) => {
+    const confirmPass = e.target.value;
+    setConfirmNewPassword(confirmPass);
+    if (confirmPass === newPassword) {
+      console.log("Matching passwords");
+      validMatchPassword.current = true;
+    } else {
+      validMatchPassword.current = false;
+    }
+  };
+
+  const handleSendVerificationEmail = () => {};
+
+  const handleEmailValidation = (e) => {
+    const email = e.target.value;
+    setNewEmail(email);
+    if (emailRegex.test(email)) {
+      validEmail.current = true;
+    } else {
+      validEmail.current = false;
+    }
+  };
+
+  const handleVerifyPassword = (e) => {
+    const verifyPass = e.target.value;
+    setVerifyEmailPassword(verifyPass);
+    if(passRegex.test(verifyPass)){
+      validVerifyPassword.current = true;
+    } else {
+      validVerifyPassword.current = false;
+    }
+  }
+
+  const securityRef = useRef(null);
+  const accountRef = useRef(null);
+
+  const scrollToSection = (ref) => {
+    console.log("Clicked!");
+    console.log(ref.current);
+    ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <>
-        <Header />
-        <main id="profile-section">
-          <div className="form-container">
-            <div className="avatar-image-container">
-              <button className="avatar-edit-btn" popoverTarget="avatar-menu">
-                <FaPencilAlt />
+      <Header />
+      <div className="layout">
+        <aside className="settings-sidebar">
+          <div>
+            <h3 className="sidebar-label">Settings</h3>
+            <nav className="sidebar-nav">
+              <button onClick={() => scrollToSection(accountRef)} className="menu-btn">
+                <FaUser className="icon"/>
+                Account
               </button>
-              <div className="avatar-circle">
-                <img
-                  className="avatar-image"
-                  src={user.avatarURL}
-                  alt="profile image"
-                />
-              </div>
-            </div>
-            <div className="profile-info">
-              <div className="user-info">
-                <h2>{user.username}</h2>
-                {user.isVerified && (
-                  <div className="verified-badge" aria-label="verifed badge">
-                    <FaCheck size="0.8rem" />
-                  </div>
-                )}
-              </div>
-              <p>
-                <FaCalendar className="icon" /> Joined {formatDate}
-              </p>
-              <p>
-                <BsUpload className="icon" /> Max upload size 5MB (PNG, JPEG,
-                JPG)
-              </p>
-              <button className="btn-update" onClick={handleFileUpload}>
-                <FaRegSave /> Save Avatar
+              <button onClick={() => scrollToSection(securityRef)} className="menu-btn">
+                <FaLock className="icon"/>
+                Security
               </button>
-              {errMessage && <p className="error-message">{errMessage}</p>}
-            </div>
-            <div id="avatar-menu" popover="auto">
-              <button className="menu-btn" onClick={handleAvatarBtnClick}>
-                <BsUpload className="icon" /> Change avatar image
-              </button>
-              <input
-                ref={avatarRef}
-                type="file"
-                accept=".jpg,.jpeg,.png"
-                onChange={handleFileChange}
-                style={{ display: "none" }}
-              />
-            </div>
-            <div>
-              <label htmlFor="username">Username</label>
-              <p className="input-info">4-27 characters, letters and numbers only</p>
-              <input
-                type="text"
-                id="username"
-                value={newUsername}
-                className="input"
-                onChange={(e) => {
-                  setNewUsername(e.target.value);
-                }}
-              />
-              {newUsername !== user.username &&
-                newUsername.length >= 4 &&
-                newUsername.length < 26 && (
-                  <button className="btn-update" onClick={handleUpdateUsername}>
-                    Update Username
+            </nav>
+          </div>
+        </aside>
+        <main className="settings-main">
+          <section className="settings-section" ref={accountRef}>
+            <div className="settings-inner">
+              <h2 className="settings-header">Account</h2>
+              <div className="user-card">
+                <div className="avatar-image-container">
+                  <button
+                    className="avatar-edit-btn"
+                    popoverTarget="avatar-menu"
+                  >
+                    <FaPencilAlt />
                   </button>
-                )}
+                  <div className="avatar-circle">
+                    <img
+                      className="avatar-image"
+                      src={user.avatarURL}
+                      alt="profile image"
+                    />
+                  </div>
+                </div>
+                <div className="profile-info">
+                  <div className="user-info">
+                    <h2>{user.username}</h2>
+                    {user.isVerified && (
+                      <div
+                        className="verified-badge"
+                        aria-label="verifed badge"
+                      >
+                        <FaCheck size="0.8rem" />
+                      </div>
+                    )}
+                  </div>
+                  <p>
+                    <FaCalendar className="icon" /> Joined {formatDate}
+                  </p>
+                  <p>
+                    <BsUpload className="icon" /> Max upload size 5MB (PNG,
+                    JPEG, JPG)
+                  </p>
+                  <button className="submit-btn" onClick={handleFileUpload}>
+                    <FaRegSave className="icon" /> Save Avatar
+                  </button>
+                  {errMessage && <p className="error-message">{errMessage}</p>}
+                </div>
+                <div id="avatar-menu" popover="auto">
+                  <button className="menu-btn" onClick={handleAvatarBtnClick}>
+                    <BsUpload className="icon" /> Change avatar image
+                  </button>
+                  <input
+                    ref={avatarRef}
+                    type="file"
+                    accept=".jpg,.jpeg,.png"
+                    onChange={handleFileChange}
+                    style={{ display: "none" }}
+                  />
+                </div>
+              </div>
             </div>
-            <div>
-              <label htmlFor="new-password">Change Password</label>
-              <p className="input-info">Must be at least 8 characters</p>
-              <input
-                type="password"
-                id="new-password"
-                placeholder="Password"
-                className="input"
-                onChange={(e) => setNewPassword(e.target.value)}
-              />
-              <input
-                type="password"
-                id="confirm-newPassword"
-                placeholder="Confirm Password"
-                className="input"
-                onChange={(e) => setConfirmNewPassword(e.target.value)}
-              />
-              {(newPassword || confirmNewPassword) && (
-                <button className="btn-update" onClick={handleUpdatePassword}>
+          </section>
+
+          <section className="settings-section" ref={securityRef}>
+            <div className="settings-inner">
+              <h2 className="settings-header">Security</h2>
+              <div className="security-card">
+                <label>Username</label>
+                <p className="info-text">
+                  4-26 characters, letters and numbers only
+                </p>
+                <input
+                  type="text"
+                  className="input"
+                  placeholder="Username"
+                  value={newUsername}
+                  onChange={(e) => handleUsernameValidation(e)}
+                />
+                <button
+                  className={`submit-btn ${validUsername.current ? "" : "disabled"}`}
+                  onClick={handleUpdateUsername}
+                >
+                  <LuUserPen className="icon" />
+                  Update Username
+                </button>
+                <hr></hr>
+                <label>Current Password</label>
+                <p className="info-text">
+                  Please enter your current password to prove your identity
+                </p>
+                <input type="password" className="input" />
+                <label>New Password</label>
+                <p className="info-text">
+                  At least 8 characters, an uppercase letter, lowercase letter,
+                  number, and symbol
+                </p>
+                <input
+                  type="password"
+                  className="input"
+                  placeholder="New Password"
+                  onChange={(e) => handleNewPasswordValidation(e)}
+                />
+                <label>Confirm New Password</label>
+                <p className="info-text">Please re-enter your new password</p>
+                <input
+                  type="password"
+                  className="input"
+                  placeholder="Confirm New Password"
+                  onChange={(e) => handleConfirmPasswordValidation(e)}
+                />
+                <button
+                  className={`submit-btn ${validMatchPassword.current && validPassword.current ? "" : "disabled"}`}
+                  onClick={handleUpdatePassword}
+                >
+                  <FaKey className="icon" />
                   Update Password
                 </button>
-              )}
+                <hr></hr>
+                <label>Update Email Address</label>
+                {!user.isVerified && (
+                  <div className="warning">
+                    <span>Your email has not been verified</span>
+                    <button
+                      className="warning-btn"
+                      onClick={handleSendVerificationEmail}
+                    >
+                      Send verification email
+                    </button>
+                  </div>
+                )}
+                <label>New Email Address</label>
+                <p className="info-text">Please enter your new email address</p>
+                <input
+                  type="email"
+                  className="input"
+                  placeholder="Email Address"
+                  onChange={(e) => handleEmailValidation(e)}
+                />
+                <label>Verify Password</label>
+                <p className="info-text">
+                  Please enter your password to prove your identity
+                </p>
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="input"
+                  onChange={(e) => handleVerifyPassword(e)}
+                />
+                <button
+                  className={`submit-btn ${validEmail.current && validVerifyPassword.current ? "" : "disabled"}`}
+                >
+                  <MdEmail className="icon" />
+                  Update Email Address
+                </button>
+              </div>
             </div>
-          </div>
-      </main>
+          </section>
+        </main>
+      </div>
     </>
   );
 }

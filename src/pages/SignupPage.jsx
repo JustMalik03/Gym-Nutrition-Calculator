@@ -104,6 +104,10 @@ function SignupPage() {
             className="input"
             {...register("username", {
               required: "Username is required",
+              pattern: {
+                value: /^[a-zA-Z0-9]+$/,
+                message: "Only letters and numbers are allowed"
+              },
               minLength: {
                 value: 4,
                 message: "Username must be at least 4 characters long",

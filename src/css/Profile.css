@@ -1,25 +1,140 @@
-#profile-section .form-container {
-  margin-top: 7.54rem;
+html {
+  scrollbar-color: var(--malachite) transparent;
 }
 
-.btn-update {
-  display: block;
-  width: 60%;
-  margin: 1em auto;
-  height: 2em;
-  min-width: 300px;
-  font-size: 1.2rem;
-  background-color: var(--electric-aqua);
-  border: none;
-  border-radius: 5px;
-  color: linen;
-  transition: 0.2s all;
+.layout {
+  display: flex;
+  min-width: 100%;
+  min-height: 100vh;
 }
 
-.btn-update:hover {
+.settings-main {
+  flex: 1;
+  position: relative;
+  overflow-y: auto;
+}
+
+@media (min-width: 1024px) {
+  .settings-sidebar {
+    display: flex;
+  }
+}
+
+.sidebar-label {
+  margin-bottom: 10px;
+}
+
+.info-text {
+  color: var(--info-text);
+}
+
+.disabled {
+  background-color: oklch(from var(--malachite) calc(l * 0.5) c h);
+  color: oklch(from var(--malachite) calc(l * 0.2) c calc(h * 1.21));
+}
+
+.disabled:hover {
+   cursor: not-allowed;
+}
+
+.settings-sidebar {
+  position: sticky;
+  top: 64px;
+  align-self: flex-start;
+  width: 240px;
+  min-width: 240px;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+  padding: 24px 20px;
+  background-color: white;
+  border-right: 1px solid var(--dark-slate-grey);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.settings-section {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  scroll-margin-top: 80px;
+}
+
+.settings-inner {
+  width: 65%;
+}
+
+.settings-header {
+  width: 100%;
+  height: fit-content;
+  font-size: 2.56rem;
+  margin: 3.5rem 0;
+  text-align: center;
+}
+
+.user-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: white;
+  border: 1px solid var(--info-text);
+  border-radius: 0.5em;
+  padding: 0.85em;
+}
+
+.security-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: white;
+  border: 1px solid var(--info-text);
+  border-radius: 0.5em;
+  padding: 0.85em;
+}
+
+.security-card hr {
+  border: 2px dashed var(--emerald);
+}
+
+.security-card label {
+  margin: 0.67rem 0;
+}
+
+.warning {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  border: 2px groove var(--warning-color);
+  padding: 1.19em 0;
+  background-color: color-mix(in srgb, var(--warning-color) 13%, transparent);
+  color: oklch(from var(--warning-color) calc(l * 0.5) c h);
+}
+
+.warning-btn {
+  background-color: var(--warning-color);
+  color: oklch(from var(--warning-color) calc(l * 0.3) c h);
+  border: 2px solid oklch(from var(--warning-color) calc(l * 0.7) c calc(h * 0.87));
+  font-size: 0.98rem;
+  padding: 0.65em;
+  transition: 0.2s all ease;
+  overflow: hidden;
+}
+
+.warning-btn:hover {
   cursor: pointer;
-  background-color: oklch(from var(--electric-aqua) calc(l * 0.8) c h);
-  transition: 0.2s all;
+  background-color: oklch(from var(--warning-color) calc(l * 0.9) c calc(h * 0.85));
+  color: oklch(from var(--warning-color) calc(l * 0.15) c calc(h * 0.85));
+  transition: 0.2s all ease;
 }
 
 .avatar-image-container {
@@ -30,7 +145,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0.9rem auto;
+  margin: 0 auto;
 }
 
 .avatar-edit-btn {
@@ -48,13 +163,11 @@
   cursor: pointer;
   anchor-name: --edit-avatar-btn;
   transition: 0.2s background-color ease;
-  
 }
 
 .avatar-edit-btn:hover {
   background-color: oklch(from var(--malachite) calc(l * 1.2) c h);
 }
-
 
 .verified-badge {
   display: flex;
@@ -95,7 +208,7 @@
 
 .icon {
   vertical-align: middle;
-  margin-right: 5px;
+  margin-right: 6px;
 }
 
 #avatar-menu {
@@ -109,7 +222,7 @@
   background-color: white;
 }
 
-.error-message{
+.error-message {
   color: red;
   text-align: center;
 }
@@ -131,9 +244,8 @@
 
 .menu-btn:hover {
   background-color: var(--menu-btn-bg);
-  color: oklch(from var(--menu-btn-bg) calc(l * 0.2) c calc(h * 1.3))
+  color: oklch(from var(--menu-btn-bg) calc(l * 0.2) c calc(h * 1.3));
 }
-
 
 .avatar-circle {
   display: flex;
