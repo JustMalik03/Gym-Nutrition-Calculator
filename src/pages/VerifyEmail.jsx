@@ -1,7 +1,7 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
-import { postRequest } from "../../utils/service";
+import { postRequest } from "../../utils/service.js";
 import { Alert, CircularProgress } from "@mui/material";
 import Header from "../components/components.jsx";
 

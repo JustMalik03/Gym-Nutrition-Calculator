@@ -3,13 +3,13 @@ import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
 import crypto from "crypto";
 import validator from "validator";
+import sendVerificationEmail from "../utils/sendVerificationEmail.js";
 
 const createToken = (id) => {
   const jwtSecret = process.env.JWT_SECRET;
   // Store the id as "id"
   return jsonwebtoken.sign({ id }, jwtSecret, { expiresIn: "3d" });
 };
-
 
 const registerUser = async (req, res) => {
   try {
@@ -18,14 +18,14 @@ const registerUser = async (req, res) => {
     //Check first before querying the database to avoid unnecessary queries
     if (!username || !email || !password)
       return res.status(400).json({ message: "All fields are required" });
-  
+
     const userExists = await User.findOne({ email });
 
     if (userExists) {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    if(!validator.isStrongPassword(password)){
+    if (!validator.isStrongPassword(password)) {
       return res.status(400).json({ message: "Bad password" });
     }
 
@@ -71,12 +71,19 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials." });
 
     // Generate Verification JWT Token
-    const token = createToken(user.id)
+    const token = createToken(user.id);
 
     // Same user object shape as signup, so the frontend handles both the same way
     res.status(200).json({
       token,
-      user: { username: user.username, email: user.email, isVerified: user.isVerified, avatarURL: user.avatarURL, createdAt: user.createdAt, userId: user.id },
+      user: {
+        username: user.username,
+        email: user.email,
+        isVerified: user.isVerified,
+        avatarURL: user.avatarURL,
+        createdAt: user.createdAt,
+        userId: user.id,
+      },
       message: "Login successful!",
     });
   } catch (error) {
@@ -113,16 +120,20 @@ const verifyEmail = async (req, res) => {
       // Same { token, user } shape as login, so the page can just call login() with it
       res.status(200).json({
         token,
-        user: { username: user.username, email: user.email, isVerified: user.isVerified, avatarURL: user.avatarURL},
+        user: {
+          username: user.username,
+          email: user.email,
+          isVerified: user.isVerified,
+          avatarURL: user.avatarURL,
+        },
       });
-
     } else {
       res
         .status(404)
         .json({ message: "Email verification failed, invalid token" });
     }
   } catch (err) {
-        res.status(500).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -148,7 +159,25 @@ const updateUsername = async (req, res) => {
 
 const updatePassword = async (req, res) => {
   try {
-    const { newPassword, email } = req.body;
+    const { currentPassword, newPassword, confirmNewPassword, email } =
+      req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const isMatch = await bcrypt.compare(currentPassword, user.hashedPassword);
+
+    if (
+      !validator.isStrongPassword(newPassword) ||
+      newPassword === currentPassword
+    )
+      return res.status(300).json({ message: "Bad password request" });
+
+    if (!isMatch) return res.status(300).json({ message: "Invalid password" });
+
+    if (newPassword !== confirmNewPassword)
+      return res.status(300).json({ message: "Passwords must match" });
 
     const newHashedPassword = await bcrypt.hash(newPassword, 10);
 
@@ -158,9 +187,6 @@ const updatePassword = async (req, res) => {
       { returnDocument: "after" },
     );
 
-    if (!updateUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
     res
       .status(200)
       .json({ message: "Password updated successfully", updateUser });
@@ -171,26 +197,79 @@ const updatePassword = async (req, res) => {
 
 const updateProfileImage = async (req, res) => {
   try {
-    if(!req.file){
-      return res.status(400).json({message: "No file found"})
+    if (!req.file) {
+      return res.status(400).json({ message: "No file found" });
     }
 
     const imagePath = `/uploads/${req.file.filename}`;
 
     const updatedUser = await User.findOneAndUpdate(
-      {_id: req.params.userId},
-      {avatarURL: imagePath},
-      {returnDocument: "after"}
+      { _id: req.params.userId },
+      { avatarURL: imagePath },
+      { returnDocument: "after" },
     );
 
     res.status(200).json({
       message: "Profile successfully updated",
       user: updatedUser,
-      filePath: imagePath
-    })
+      filePath: imagePath,
+    });
   } catch (err) {
-    res.status(500).json({message: "Server error", error: err.message});
+    res.status(500).json({ message: "Server error", error: err.message });
   }
+};
+
+const updateEmail = async (req, res) => {
+  try {
+    const {newEmail, verifyEmailPassword, userId} = req.body;
+
+    const userExists = await User.findOne({newEmail});
+
+    if(userExists) return res.status(300).json({ message: "User already exists" });
+
+    const user = await User.findById(userId);
+
+    const isMatch = await bcrypt.compare(verifyEmailPassword, user.hashedPassword);
+
+    if(!isMatch) return res.status(300).json({ message: "Invalid credentials"});
+
+    const updatedUser = await User.findOneAndUpdate(
+      {_id: userId},
+      {
+        $set: {
+          email: newEmail,
+          emailToken: crypto.randomBytes(64).toString("hex"),
+          isVerified: false
+        }
+      }, 
+      {
+        returnDocument: "after",
+        runValidators: true
+      }
+    );
+
+    res.status(200).json({ message: "Email updated successfully", user: updatedUser});
+
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message })
+  }
+}
+
+const sendEmail = async (req, res) => {
+    try {
+      const {email} = req.body;
+
+      const user = await User.findOne({ email });
+
+      if(!user) return res.status(300).json({ message: "User does not exist" });
+
+      sendVerificationEmail(user);
+
+      res.status(200).json({ message: "Email has been sent successfully"})
+
+    } catch (error) {
+      res.status(500).json({ message: "Server error", error: error.message })
+    }
 }
 
 export {
@@ -200,5 +279,7 @@ export {
   updateUsername,
   updatePassword,
   findUser,
-  updateProfileImage
+  updateProfileImage,
+  updateEmail,
+  sendEmail
 };

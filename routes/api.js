@@ -13,6 +13,8 @@ import {
   verifyEmail,
   findUser,
   updateProfileImage,
+  updateEmail,
+  sendEmail,
 } from "../middleware/userController.js";
 import { createGymPlan, getGymPlan, getMyGymPlans } from "../middleware/gymPlanController.js";
 import { createNutritionPlan, getNutritionPlan, getMyNutritionPlans } from "../middleware/nutritionPlanController.js";
@@ -96,9 +98,13 @@ router.post("/requestReset", requestReset);
 
 router.post("/reset", resetPassword);
 
+router.post("/send-email", sendEmail);
+
 router.put("/update-username", updateUsername);
 
 router.put("/update-password", updatePassword);
+
+router.put("/update-email", updateEmail);
 
 
 
