@@ -1,0 +1,21 @@
+.settings-sidebar {
+  position: sticky;
+  top: 64px;
+  align-self: flex-start;
+  width: 240px;
+  min-width: 240px;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+  padding: 24px 20px;
+  background-color: white;
+  border-right: 1px solid var(--dark-slate-grey);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}

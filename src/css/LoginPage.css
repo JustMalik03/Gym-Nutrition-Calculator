@@ -39,11 +39,12 @@ body {
   max-width: 500px;
   min-height: 300px;
   margin: 0 auto;
+  margin-top: 64px;
   padding: 2em;
   background-color: white;
   border: 1px solid var(--info-text);
   border-radius: 3%;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  box-shadow: var(--dark-slate-grey) 0px 5px 15px;
 }
 
 #redirect-links {
@@ -100,7 +101,7 @@ body {
   background-color: var(--malachite);
   border: none;
   border-radius: 0.4rem;
-  color: oklch(from var(--malachite) calc(l * 0.45) c calc(h * 1.21));
+  color: oklch(from var(--malachite) calc(l * 0.36) c calc(h * 1.21));
   transition: 0.2s all;
   vertical-align: middle;
 }

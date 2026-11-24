@@ -63,12 +63,12 @@ const loginUser = async (req, res) => {
 
     // Verify user existence
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "User does not exist." });
+    if (!user) return res.status(400).json({ message: "User does not exist" });
 
     // Verify password matching
     const isMatch = await bcrypt.compare(password, user.hashedPassword);
     if (!isMatch)
-      return res.status(400).json({ message: "Invalid credentials." });
+      return res.status(400).json({ message: "Invalid credentials" });
 
     // Generate Verification JWT Token
     const token = createToken(user.id);

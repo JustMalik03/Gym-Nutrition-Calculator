@@ -1,7 +1,10 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
 import Header from "../components/components";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 import "../css/LoginPage.css";
 
@@ -15,6 +18,19 @@ function LoginPage() {
   // Handle form submission
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const [open, setOpen] = useState(false);
+
+  const showError = (message) => {
+    setErrorMessage(message);
+    setOpen(true);
+  };
+
+  const handleClose = (e, reason) => {
+    if (reason === "clickaway") return;
+    setOpen(false);
+  };
 
   const onSubmit = async (data) => {
     try {
@@ -31,10 +47,10 @@ function LoginPage() {
         login(result.token, result.user);
         navigate("/dashboard");
       } else {
-        console.log("Invalid credentials");
+        showError(result.message || "There was an issue attempting to log in");
       }
     } catch (error) {
-      console.log("Something went wrong.");
+      showError("Something went wrong");
     }
   };
 
@@ -83,6 +99,18 @@ function LoginPage() {
           <Link to="/signup">Sign Up</Link>
         </div>
       </form>
+      <div>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert
+            onClose={handleClose}
+            severity="error"
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            {errorMessage}
+          </Alert>
+        </Snackbar>
+      </div>
     </>
   );
 }

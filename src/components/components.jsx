@@ -27,7 +27,7 @@ function Header() {
               />
             </button>
             <div id="website-menu" popover="auto">
-              <button onClick={() => navigate("/profile")} className="menu-btn">
+              <button onClick={() => navigate("/profile/edit")} className="menu-btn">
                 <FaUser className="icon"/>
                 Profile
                 </button>
