@@ -36,6 +36,7 @@ function App(){
             <Route index element={<Navigate to="edit" replace/>}></Route>
             <Route path="edit" element={<ProtectedRoute><ProfileEdit /></ProtectedRoute>}></Route>
             <Route path="security" element={<ProtectedRoute><ProfileSecurity/></ProtectedRoute>}></Route>
+            <Route path = "*" element={<Navigate to="/profile"/>}></Route>
           </Route>
           <Route path="/aigymplan/:id" element={<ProtectedRoute><AiGymPlan /></ProtectedRoute>}></Route>
           <Route path="/myplans" element={<ProtectedRoute><MyPlans /></ProtectedRoute>}></Route>
