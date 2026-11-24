@@ -8,7 +8,7 @@ import requireAuth from "../middleware/requireAuth.js";
 import {
   registerUser,
   loginUser,
-  updateUsername,
+  updateProfile,
   updatePassword,
   verifyEmail,
   findUser,
@@ -73,7 +73,7 @@ router.get("/health", async (req, res) => {
 router.get("/me", requireAuth, async (req, res) => {
   try {
     const user = await User.findById(req.userId).select(
-      "username email isVerified avatarURL createdAt id",
+      "username email isVerified avatarURL createdAt id bio",
     );
     if (!user)
       return res.status(401).json({ message: "User no longer exists." });
@@ -100,7 +100,7 @@ router.post("/reset", resetPassword);
 
 router.post("/send-email", sendEmail);
 
-router.put("/update-username", updateUsername);
+router.put("/update-profile", updateProfile);
 
 router.put("/update-password", updatePassword);
 

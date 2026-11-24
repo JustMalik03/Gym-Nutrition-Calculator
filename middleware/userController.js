@@ -83,6 +83,7 @@ const loginUser = async (req, res) => {
         avatarURL: user.avatarURL,
         createdAt: user.createdAt,
         userId: user.id,
+        bio: user.bio,
       },
       message: "Login successful!",
     });
@@ -137,21 +138,34 @@ const verifyEmail = async (req, res) => {
   }
 };
 
-const updateUsername = async (req, res) => {
+const updateProfile = async (req, res) => {
   try {
-    const { newUsername, email } = req.body;
-    const updateUser = await User.findOneAndUpdate(
-      { email: email },
-      { username: newUsername },
-      { returnDocument: "after" },
-    );
+    const { newUsername, userBio, email } = req.body;
 
-    if (!updateUser) {
-      return res.status(404).json({ message: "User not found" });
+    const user = await User.findOne({ email });
+
+    const userExists = await User.findOne({ newUsername });
+
+    let noChanges = false;
+
+    if(userExists && userExists.email === user.email) return res.status(300).json({ message: "Username has been taken" });
+
+    if(user.username === newUsername && user.bio === userBio) noChanges = true;
+
+    if (!user) return res.status(300).json({ message: "User does not exist" });
+
+    if (/^[a-zA-Z0-9]{4,26}$/.test(newUsername)) user.username = newUsername;
+
+    if (userBio.length < 500) user.bio = userBio;
+
+    const updatedUser = await user.save();
+
+    if(noChanges){
+      res.status(200).json({ message: "No changes were made", updatedUser });
+    } else {
+      res.status(200).json({ message: "Profile updated successfully", updatedUser });
     }
-    res
-      .status(200)
-      .json({ message: "Username updated successfully", updateUser });
+
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
@@ -221,65 +235,70 @@ const updateProfileImage = async (req, res) => {
 
 const updateEmail = async (req, res) => {
   try {
-    const {newEmail, verifyEmailPassword, userId} = req.body;
+    const { newEmail, verifyEmailPassword, userId } = req.body;
 
-    const userExists = await User.findOne({newEmail});
+    const userExists = await User.findOne({ newEmail });
 
-    if(userExists) return res.status(300).json({ message: "User already exists" });
+    if (userExists)
+      return res.status(300).json({ message: "User already exists" });
 
     const user = await User.findById(userId);
 
-    const isMatch = await bcrypt.compare(verifyEmailPassword, user.hashedPassword);
+    const isMatch = await bcrypt.compare(
+      verifyEmailPassword,
+      user.hashedPassword,
+    );
 
-    if(!isMatch) return res.status(300).json({ message: "Invalid credentials"});
+    if (!isMatch)
+      return res.status(300).json({ message: "Invalid credentials" });
 
     const updatedUser = await User.findOneAndUpdate(
-      {_id: userId},
+      { _id: userId },
       {
         $set: {
           email: newEmail,
           emailToken: crypto.randomBytes(64).toString("hex"),
-          isVerified: false
-        }
-      }, 
+          isVerified: false,
+        },
+      },
       {
         returnDocument: "after",
-        runValidators: true
-      }
+        runValidators: true,
+      },
     );
 
-    res.status(200).json({ message: "Email updated successfully", user: updatedUser});
-
+    res
+      .status(200)
+      .json({ message: "Email updated successfully", user: updatedUser });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message })
+    res.status(500).json({ message: "Server error", error: error.message });
   }
-}
+};
 
 const sendEmail = async (req, res) => {
-    try {
-      const {email} = req.body;
+  try {
+    const { email } = req.body;
 
-      const user = await User.findOne({ email });
+    const user = await User.findOne({ email });
 
-      if(!user) return res.status(300).json({ message: "User does not exist" });
+    if (!user) return res.status(300).json({ message: "User does not exist" });
 
-      sendVerificationEmail(user);
+    sendVerificationEmail(user);
 
-      res.status(200).json({ message: "Email has been sent successfully"})
-
-    } catch (error) {
-      res.status(500).json({ message: "Server error", error: error.message })
-    }
-}
+    res.status(200).json({ message: "Email has been sent successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
 
 export {
   verifyEmail,
   registerUser,
   loginUser,
-  updateUsername,
+  updateProfile,
   updatePassword,
   findUser,
   updateProfileImage,
   updateEmail,
-  sendEmail
+  sendEmail,
 };

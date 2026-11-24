@@ -20,10 +20,10 @@ function ProfileEdit() {
   const [message, setMessage] = useState("");
   const [alertType, setAlertType] = useState("error");
   const [open, setOpen] = useState(false);
+  const [userBio, setUserBio] = useState(user.bio);
 
   const avatarRef = useRef(null);
-  const validUsername = useRef(false);
-
+  
   const email = user.email;
   const months = [
     "January",
@@ -88,43 +88,38 @@ function ProfileEdit() {
     }
   };
 
-  const handleUpdateUsername = async () => {
+  const handleProfileChanges = async () => {
     try {
-      const res = await fetch("/api/update-username", {
+      const res = await fetch("/api/update-profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ newUsername, email }),
+        body: JSON.stringify({ newUsername, userBio, email }),
       });
+
+      const result = await res.json();
+
       if (res.ok) {
-        // Update the saved user so the header shows the new name right away
-        updateUser({ ...user, username: newUsername });
+        updateUser({ ...user, username: result.updatedUser.username, bio: result.updatedUser.bio });
         setAlertType("success");
-        showMessage("Username updated successfully");
+        showMessage(result.message || "Profile updated successfully");
       } else {
         setAlertType("error");
-        showMessage("Failed to update username");
+        showMessage(result.message || "Failed to update profile");
       }
     } catch (err) {
       console.log("Something went wrong");
     }
   };
 
-  const handleUsernameValidation = (e) => {
-    const username = e.target.value.trim();
-    setNewUsername(e.target.value);
-    if (
-      username.length >= 4 &&
-      username.length < 26 &&
-      username !== user.username &&
-      /^[a-zA-Z0-9]+$/.test(username)
-    ) {
-      validUsername.current = true;
-    } else {
-      validUsername.current = false;
+  const handleBioUpdate = (e) => {
+    const profileBio = e.target.value;
+    if(profileBio.length > 500){
+      return;
     }
-  };
+    setUserBio(profileBio);
+  }
 
   const showMessage = (message) => {
     setMessage(message);
@@ -208,22 +203,32 @@ function ProfileEdit() {
               </div>
               <div className="user-details">
                 <label>Username</label>
-                <p className="info-text">
+                <span className="info-text">
                   4-26 characters, letters and numbers only
-                </p>
+                </span>
                 <input
                   type="text"
                   className="input"
                   placeholder="Username"
                   value={newUsername}
-                  onChange={(e) => handleUsernameValidation(e)}
+                  onChange={(e) => setNewUsername(e.target.value)}
                 />
-                <button
-                  className={`submit-btn ${validUsername.current ? "" : "disabled"}`}
-                  onClick={handleUpdateUsername}
-                >
+
+                <label>Bio</label>
+                <span className="info-text">
+                  Tell us a little bit about yourself
+                </span>
+                <textarea
+                  className="text-area-input input"
+                  rows={5}
+                  cols={100}
+                  value={userBio}
+                  onChange={handleBioUpdate}
+                ></textarea>
+                <span className="text-count">{userBio.length}/500</span>
+                <button className="submit-btn" onClick={handleProfileChanges}>
                   <LuUserPen className="icon" />
-                  Update Username
+                  Update Profile
                 </button>
               </div>
             </div>

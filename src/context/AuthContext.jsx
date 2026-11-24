@@ -87,7 +87,8 @@ export function AuthProvider({ children }) {
                             isVerified: freshUser.isVerified,
                             avatarURL: freshUser.avatarURL,
                             createdAt: freshUser.createdAt,
-                            userId: freshUser._id
+                            userId: freshUser._id,
+                            bio: freshUser.bio
                         };
                         localStorage.setItem("user", JSON.stringify(userInfo));
                         setUser(userInfo);
